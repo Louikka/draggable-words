@@ -1,0 +1,150 @@
+
+:root {
+    --tile-background-color : rgb(240, 216, 240);
+}
+
+html {
+    height : 100%;
+
+    scrollbar-width : none;
+
+    @media (orientation : portrait) {
+        font-size : 12px;
+    }
+}
+
+body {
+    height : 100%;
+    margin : 0;
+
+    background-color : plum;
+
+    font-family : 'Noto Sans', sans-serif;
+    font-variation-settings : "wdth" 100;
+
+
+    main {
+        position : relative;
+
+        height : 100vh;
+        padding : 1rem;
+
+
+        > .canvas {
+            position : relative;
+
+            height : 100%;
+
+            display : flex;
+            justify-content : center;
+            align-items : center;
+
+
+            .card {
+                position : absolute;
+
+                padding : .2rem .5rem;
+
+                background-color : var(--tile-background-color);
+                border-radius : .1rem;
+                cursor : pointer;
+
+                font-size : 2.5rem;
+            }
+
+        }
+
+
+        > aside {
+            position : absolute;
+            top : 2rem;
+            left : 0;
+
+            padding : 1rem;
+
+            background-color : var(--tile-background-color);
+            border-radius : 0 .5rem .5rem 0;
+
+            transition : transform .5s ease-out;
+
+            &.show {
+                transform : translateX(-100%);
+            }
+
+
+            form[name="words_input"] {
+
+
+                input[type="text"] {
+                    padding : .2rem .5rem;
+
+                    display : block;
+
+                    background-color : rgb(193, 179, 193);
+                    border : none;
+                    border-radius : .1rem;
+
+                    font : inherit;
+                    color : inherit;
+                }
+
+                input[type="button"], input[type="submit"] {
+                    padding : .2rem .5rem;
+
+                    display : block;
+
+                    background-color : rgb(193, 179, 193);
+                    border : none;
+                    border-radius : .1rem;
+                    cursor : pointer;
+
+                    font : inherit;
+                    color : inherit;
+                }
+
+            }
+
+        }
+
+    }
+
+
+    footer {
+        padding : 1rem;
+
+        background-color : rgb(30, 30, 30);
+
+        font-family : 'Segoe UI', Verdana, sans-serif;
+        color : gainsboro;
+        letter-spacing : .04em;
+
+
+        > section {
+            margin-left : 2rem;
+        }
+
+
+        a:hover {
+            color : rgb(186, 186, 186);
+        }
+
+    }
+
+}
+
+* {
+    box-sizing : border-box;
+}
+
+a.link {
+    text-decoration : none;
+    color : inherit;
+
+    &:visited {
+        color : inherit;
+    }
+
+    &[target="_blank"]::after {
+        content : '\2197';
+    }
+}

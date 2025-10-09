@@ -1,0 +1,16 @@
+{
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "tsc & sass src/styles/:public/ --no-source-map",
+    "devw": "start cmd /k \"tsc -w\" & start cmd /k \"sass src/styles/:public/ --no-source-map -w\"",
+    "release": "tsc & sass src/styles/:public/ --no-source-map && postcss public/*.css -r --no-map -u autoprefixer -u cssnano"
+  },
+  "devDependencies": {
+    "typescript": "^5.9.2",
+    "sass": "^1.91.0",
+    "postcss": "^8.5.6",
+    "postcss-cli": "^11.0.1",
+    "autoprefixer": "^10.4.21",
+    "cssnano": "^7.1.1"
+  }
+}
