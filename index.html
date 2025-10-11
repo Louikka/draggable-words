@@ -31,10 +31,23 @@
         <div class="canvas"></div>
 
         <aside>
-            <form name="words_input">
-                <input name="input_text" type="text" placeholder="Enter word..." />
-                <input name="input_button" type="submit" style="margin-top:.5rem" />
-            </form>
+            <div class="instruments">
+                <input type="button" value="Toggle side panel" onclick="toggleSidePanel()" />
+                <input type="button" value="Toggle fullscreen" onclick="toggleFullscreen()" />
+            </div>
+
+            <div class="inputs">
+                <form name="words_input">
+                    <input name="input_text" type="text" placeholder="Enter word..." />
+                    <input name="input_button" type="submit" style="margin-top:.5rem" />
+
+                    <hr style="margin-top:1.2rem" />
+
+                    <label>
+                        Auto split words <input name="option_auto_split" type="checkbox" />
+                    </label>
+                </form>
+            </div>
         </aside>
     </main>
 

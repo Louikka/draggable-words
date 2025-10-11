@@ -1,6 +1,11 @@
 
 :root {
     --tile-background-color : rgb(240, 216, 240);
+
+    --color-plum : plum;
+    --color-lightgrey : rgb(193, 179, 193);
+    --color-darkteal : rgb(34, 60, 80);
+    --color-darkteal-transparent : rgba(34, 60, 80, .2);
 }
 
 html {
@@ -17,7 +22,7 @@ body {
     height : 100%;
     margin : 0;
 
-    background-color : plum;
+    background-color : var(--color-plum);
 
     font-family : 'Noto Sans', sans-serif;
     font-variation-settings : "wdth" 100;
@@ -35,10 +40,6 @@ body {
 
             height : 100%;
 
-            display : flex;
-            justify-content : center;
-            align-items : center;
-
 
             .card {
                 position : absolute;
@@ -46,6 +47,7 @@ body {
                 padding : .2rem .5rem;
 
                 background-color : var(--tile-background-color);
+                border : 1px solid var(--color-darkteal-transparent);
                 border-radius : .1rem;
                 cursor : pointer;
 
@@ -57,49 +59,82 @@ body {
 
         > aside {
             position : absolute;
-            top : 2rem;
+            top : 0;
             left : 0;
 
-            padding : 1rem;
 
-            background-color : var(--tile-background-color);
-            border-radius : 0 .5rem .5rem 0;
+            > .instruments {
+                padding : .5rem 1rem;
 
-            transition : transform .5s ease-out;
-
-            &.show {
-                transform : translateX(-100%);
+                background-color : var(--tile-background-color);
+                border-radius : 0 0 .5rem 0;
             }
 
 
-            form[name="words_input"] {
+            > .inputs {
+                margin-top : 1rem;
+                padding : 1rem;
 
+                display : inline-block;
 
-                input[type="text"] {
-                    padding : .2rem .5rem;
+                background-color : var(--tile-background-color);
+                border-radius : 0 .5rem .5rem 0;
 
-                    display : block;
+                transition : transform .5s ease-out;
 
-                    background-color : rgb(193, 179, 193);
-                    border : none;
-                    border-radius : .1rem;
-
-                    font : inherit;
-                    color : inherit;
+                &.hide {
+                    transform : translateX(-100%);
                 }
 
-                input[type="button"], input[type="submit"] {
-                    padding : .2rem .5rem;
 
-                    display : block;
+                hr {
+                    color : var(--color-lightgrey);
+                }
 
-                    background-color : rgb(193, 179, 193);
-                    border : none;
-                    border-radius : .1rem;
-                    cursor : pointer;
 
-                    font : inherit;
-                    color : inherit;
+                form[name="words_input"] {
+
+
+                    input[type="text"] {
+                        padding : .2rem .5rem;
+
+                        display : block;
+
+                        background-color : var(--color-lightgrey);
+                        border : none;
+                        border-radius : .1rem;
+
+                        font : inherit;
+                        color : inherit;
+                    }
+
+                    input[type="button"], input[type="submit"] {
+                        padding : .2rem .5rem;
+
+                        display : block;
+
+                        background-color : var(--color-lightgrey);
+                        border : none;
+                        border-radius : .1rem;
+                        cursor : pointer;
+
+                        font : inherit;
+                        color : inherit;
+                    }
+
+                    input[type="checkbox"] {
+                        //padding : .2rem .5rem;
+
+                        vertical-align : middle;
+
+                        //background-color : var(--color-lightgrey);
+                        //border : none;
+                        //border-radius : .1rem;
+
+                        //font : inherit;
+                        //color : inherit;
+                    }
+
                 }
 
             }
