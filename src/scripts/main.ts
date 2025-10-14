@@ -18,22 +18,20 @@ document.forms['words_input' as unknown as number].addEventListener('submit', (e
 
     const form = ev.currentTarget as HTMLFormElement;
 
-    let __submittedString = (form['input_text'] as HTMLInputElement).value;
-    if (__submittedString.length === 0) return;
+    let __inputValue = (form['input_text'] as HTMLInputElement).value.trim();
+    if (__inputValue.length === 0) return;
 
     let wordsToDisplay: string[];
 
     if ((form['option_auto_split'] as HTMLInputElement).checked)
     {
-        wordsToDisplay = sliceStringByLetters(__submittedString, 2);
+        wordsToDisplay = [ ...sliceStringByLetters(__inputValue, 2) ];
     }
     else
     {
-        wordsToDisplay = [ __submittedString ];
+        wordsToDisplay = [ __inputValue ];
     }
 
-    const __canvasWidth = document.querySelector('main > .canvas')!.clientWidth;
-    const __canvasHeight = document.querySelector('main > .canvas')!.clientHeight;
 
     for (let i = 0; i < wordsToDisplay.length; i++)
     {
@@ -41,12 +39,11 @@ document.forms['words_input' as unknown as number].addEventListener('submit', (e
         e.classList.add('card');
         e.innerText = wordsToDisplay[i];
 
-        e.style.top = `${ __canvasHeight / 2 + i * 5 }px`;
-        e.style.left = `${ __canvasWidth / 2 + i * 10 }px`;
-
         makeElementDraggable(e);
 
         document.querySelector('main .canvas')!.append(e);
+
+        setElementRandomPosition(e, document.querySelector<HTMLElement>('main > .canvas')!);
     }
 
     (form['input_text'] as HTMLInputElement).value = '';
@@ -89,16 +86,24 @@ function toggleFullscreen(toggle?: boolean)
 
 function toggleSidePanel(toggle?: boolean)
 {
-    const e = document.querySelector('main > aside > .inputs')!;
+    const e = document.querySelector<HTMLElement>('main > aside')!;
+    const openButton = document.querySelector<HTMLElement>('main > .side_panel_toggle')!;
 
-    if (toggle ?? e.classList.contains('hide'))
+    if (toggle ?? e.hidden)
     {
-        e.classList.remove('hide');
+        e.hidden = false;
+        openButton.hidden = true;
     }
     else
     {
-        e.classList.add('hide');
+        e.hidden = true;
+        openButton.hidden = false;
     }
+}
+
+function clearCanvas()
+{
+    document.querySelector('main > .canvas')!.innerHTML = '';
 }
 
 function sliceStringByLetters(s: string, byNoOfLetters = 1): string[]
@@ -128,6 +133,30 @@ function sliceStringByLetters(s: string, byNoOfLetters = 1): string[]
     if (__sub.length !== 0) res.push(__sub);
 
     return res;
+}
+
+function setElementRandomPosition(element: HTMLElement, boundaryElement = document.documentElement)
+{
+    element.style.top = Math.floor(Math.random() * boundaryElement.offsetHeight) + 'px';
+    element.style.left = Math.floor(Math.random() * boundaryElement.offsetWidth) + 'px';
+
+    if (isElementOutOfBoundaries(element, boundaryElement))
+    {
+        console.log('Element is out of boundaries.', element);
+        setElementRandomPosition(element, boundaryElement);
+    }
+}
+function isElementOutOfBoundaries(element: HTMLElement, boundaryElement = document.documentElement): boolean
+{
+    const childRect = element.getBoundingClientRect();
+    const parentRect = boundaryElement.getBoundingClientRect();
+
+    return (
+        childRect.top < parentRect.top ||
+        childRect.right > parentRect.right ||
+        childRect.bottom > parentRect.bottom ||
+        childRect.left < parentRect.left
+    );
 }
 
 function makeElementDraggable(element: HTMLElement)
@@ -174,13 +203,14 @@ function makeElementDraggable(element: HTMLElement)
     }
 }
 
+
 function getAppPreferencesState(): AppOptions
 {
     return {
-        auto_split : document.querySelector<HTMLInputElement>('main > aside > .inputs input[name="option_auto_split"]')!.checked,
+        auto_split : document.querySelector<HTMLInputElement>('main > aside input[name="option_auto_split"]')!.checked,
     };
 }
 function setAppPreferencesState(state: AppOptions)
 {
-    document.querySelector<HTMLInputElement>('main > aside > .inputs input[name="option_auto_split"]')!.checked = state.auto_split;
+    document.querySelector<HTMLInputElement>('main > aside input[name="option_auto_split"]')!.checked = state.auto_split;
 }

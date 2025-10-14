@@ -2,26 +2,23 @@
 document.forms['words_input'].addEventListener('submit', (ev) => {
     ev.preventDefault();
     const form = ev.currentTarget;
-    let __submittedString = form['input_text'].value;
-    if (__submittedString.length === 0)
+    let __inputValue = form['input_text'].value.trim();
+    if (__inputValue.length === 0)
         return;
     let wordsToDisplay;
     if (form['option_auto_split'].checked) {
-        wordsToDisplay = sliceStringByLetters(__submittedString, 2);
+        wordsToDisplay = [...sliceStringByLetters(__inputValue, 2)];
     }
     else {
-        wordsToDisplay = [__submittedString];
+        wordsToDisplay = [__inputValue];
     }
-    const __canvasWidth = document.querySelector('main > .canvas').clientWidth;
-    const __canvasHeight = document.querySelector('main > .canvas').clientHeight;
     for (let i = 0; i < wordsToDisplay.length; i++) {
         let e = document.createElement('div');
         e.classList.add('card');
         e.innerText = wordsToDisplay[i];
-        e.style.top = `${__canvasHeight / 2 + i * 5}px`;
-        e.style.left = `${__canvasWidth / 2 + i * 10}px`;
         makeElementDraggable(e);
         document.querySelector('main .canvas').append(e);
+        setElementRandomPosition(e, document.querySelector('main > .canvas'));
     }
     form['input_text'].value = '';
 });
@@ -45,13 +42,19 @@ function toggleFullscreen(toggle) {
     }
 }
 function toggleSidePanel(toggle) {
-    const e = document.querySelector('main > aside > .inputs');
-    if (toggle !== null && toggle !== void 0 ? toggle : e.classList.contains('hide')) {
-        e.classList.remove('hide');
+    const e = document.querySelector('main > aside');
+    const openButton = document.querySelector('main > .side_panel_toggle');
+    if (toggle !== null && toggle !== void 0 ? toggle : e.hidden) {
+        e.hidden = false;
+        openButton.hidden = true;
     }
     else {
-        e.classList.add('hide');
+        e.hidden = true;
+        openButton.hidden = false;
     }
+}
+function clearCanvas() {
+    document.querySelector('main > .canvas').innerHTML = '';
 }
 function sliceStringByLetters(s, byNoOfLetters = 1) {
     if (byNoOfLetters < 1) {
@@ -72,6 +75,22 @@ function sliceStringByLetters(s, byNoOfLetters = 1) {
     if (__sub.length !== 0)
         res.push(__sub);
     return res;
+}
+function setElementRandomPosition(element, boundaryElement = document.documentElement) {
+    element.style.top = Math.floor(Math.random() * boundaryElement.offsetHeight) + 'px';
+    element.style.left = Math.floor(Math.random() * boundaryElement.offsetWidth) + 'px';
+    if (isElementOutOfBoundaries(element, boundaryElement)) {
+        console.log('Element is out of boundaries.', element);
+        setElementRandomPosition(element, boundaryElement);
+    }
+}
+function isElementOutOfBoundaries(element, boundaryElement = document.documentElement) {
+    const childRect = element.getBoundingClientRect();
+    const parentRect = boundaryElement.getBoundingClientRect();
+    return (childRect.top < parentRect.top ||
+        childRect.right > parentRect.right ||
+        childRect.bottom > parentRect.bottom ||
+        childRect.left < parentRect.left);
 }
 function makeElementDraggable(element) {
     let pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
@@ -99,9 +118,9 @@ function makeElementDraggable(element) {
 }
 function getAppPreferencesState() {
     return {
-        auto_split: document.querySelector('main > aside > .inputs input[name="option_auto_split"]').checked,
+        auto_split: document.querySelector('main > aside input[name="option_auto_split"]').checked,
     };
 }
 function setAppPreferencesState(state) {
-    document.querySelector('main > aside > .inputs input[name="option_auto_split"]').checked = state.auto_split;
+    document.querySelector('main > aside input[name="option_auto_split"]').checked = state.auto_split;
 }

@@ -35,6 +35,18 @@ body {
         padding : 1rem;
 
 
+        > .side_panel_toggle {
+            position : absolute;
+            top : 0;
+            left : 1rem;
+
+            padding : .5rem 1rem;
+
+            background-color : var(--tile-background-color);
+            border-radius : 0 0 .5rem .5rem;
+        }
+
+
         > .canvas {
             position : relative;
 
@@ -59,82 +71,79 @@ body {
 
         > aside {
             position : absolute;
-            top : 0;
-            left : 0;
+            top : 1rem;
+            left : 1rem;
+
+            padding : 1rem;
+
+            background-color : var(--tile-background-color);
+            border-radius : .5rem;
 
 
-            > .instruments {
-                padding : .5rem 1rem;
+            > .toggle_button {
+                transform : translate(-1%, -40%);
 
-                background-color : var(--tile-background-color);
-                border-radius : 0 0 .5rem 0;
+
+                input {
+                    padding : 0 .7rem;
+
+                    background-color : var(--color-lightgrey);
+                    border : none;
+                    border-radius : 999em;
+                    cursor : pointer;
+
+                    font : inherit;
+                    color : inherit;
+                }
+
             }
 
 
-            > .inputs {
-                margin-top : 1rem;
-                padding : 1rem;
+            hr {
+                color : var(--color-lightgrey);
+            }
 
-                display : inline-block;
 
-                background-color : var(--tile-background-color);
-                border-radius : 0 .5rem .5rem 0;
+            form[name="words_input"] {
 
-                transition : transform .5s ease-out;
+                input[type="text"] {
+                    padding : .2rem .5rem;
 
-                &.hide {
-                    transform : translateX(-100%);
+                    display : block;
+
+                    background-color : var(--color-lightgrey);
+                    border : none;
+                    border-radius : .1rem;
+
+                    font : inherit;
+                    color : inherit;
                 }
 
+                input[type="button"], input[type="submit"] {
+                    padding : .2rem .5rem;
 
-                hr {
-                    color : var(--color-lightgrey);
+                    display : block;
+
+                    background-color : var(--color-lightgrey);
+                    border : none;
+                    border-radius : .1rem;
+                    cursor : pointer;
+
+                    font : inherit;
+                    color : inherit;
                 }
 
+                input[type="checkbox"] {
+                    //padding : .2rem .5rem;
 
-                form[name="words_input"] {
+                    vertical-align : middle;
 
+                    //background-color : var(--color-lightgrey);
+                    //border : none;
+                    //border-radius : .1rem;
 
-                    input[type="text"] {
-                        padding : .2rem .5rem;
-
-                        display : block;
-
-                        background-color : var(--color-lightgrey);
-                        border : none;
-                        border-radius : .1rem;
-
-                        font : inherit;
-                        color : inherit;
-                    }
-
-                    input[type="button"], input[type="submit"] {
-                        padding : .2rem .5rem;
-
-                        display : block;
-
-                        background-color : var(--color-lightgrey);
-                        border : none;
-                        border-radius : .1rem;
-                        cursor : pointer;
-
-                        font : inherit;
-                        color : inherit;
-                    }
-
-                    input[type="checkbox"] {
-                        //padding : .2rem .5rem;
-
-                        vertical-align : middle;
-
-                        //background-color : var(--color-lightgrey);
-                        //border : none;
-                        //border-radius : .1rem;
-
-                        //font : inherit;
-                        //color : inherit;
-                    }
-
+                    //font : inherit;
+                    //color : inherit;
                 }
 
             }
