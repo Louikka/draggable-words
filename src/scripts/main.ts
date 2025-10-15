@@ -25,7 +25,7 @@ document.forms['words_input' as unknown as number].addEventListener('submit', (e
 
     if ((form['option_auto_split'] as HTMLInputElement).checked)
     {
-        wordsToDisplay = [ ...sliceStringByLetters(__inputValue, 2) ];
+        wordsToDisplay = [ ...sliceStringByLetters(__inputValue, 3) ];
     }
     else
     {
