@@ -5,12 +5,17 @@ document.forms['words_input'].addEventListener('submit', (ev) => {
     let __inputValue = form['input_text'].value.trim();
     if (__inputValue.length === 0)
         return;
-    let wordsToDisplay;
+    let __inputValueArr = __inputValue.split(' ');
+    let wordsToDisplay = [];
     if (form['option_auto_split'].checked) {
-        wordsToDisplay = [...sliceStringByLetters(__inputValue, 3)];
+        for (let word of __inputValueArr) {
+            if (word.length === 0)
+                continue;
+            wordsToDisplay.push(...sliceStringByLetters(word, 3));
+        }
     }
     else {
-        wordsToDisplay = [__inputValue];
+        wordsToDisplay.push(...__inputValueArr);
     }
     for (let i = 0; i < wordsToDisplay.length; i++) {
         let e = document.createElement('div');
@@ -23,14 +28,14 @@ document.forms['words_input'].addEventListener('submit', (ev) => {
     form['input_text'].value = '';
 });
 window.addEventListener('beforeunload', () => {
-    localStorage.setItem('options', JSON.stringify(getAppPreferencesState()));
+    localStorage.setItem('options', JSON.stringify(Alpine.store('appOptions')));
 });
-(() => {
+document.addEventListener('alpine:init', () => {
     let __storageItem = localStorage.getItem('options');
     if (__storageItem !== null) {
-        setAppPreferencesState(JSON.parse(__storageItem));
+        Alpine.store('appOptions', JSON.parse(__storageItem));
     }
-})();
+});
 function toggleFullscreen(toggle) {
     if (toggle !== null && toggle !== void 0 ? toggle : document.fullscreenElement === null) {
         document.documentElement.requestFullscreen().catch((err) => {
@@ -115,12 +120,4 @@ function makeElementDraggable(element) {
         document.onmouseup = null;
         document.onmousemove = null;
     }
-}
-function getAppPreferencesState() {
-    return {
-        auto_split: document.querySelector('main > aside input[name="option_auto_split"]').checked,
-    };
-}
-function setAppPreferencesState(state) {
-    document.querySelector('main > aside input[name="option_auto_split"]').checked = state.auto_split;
 }

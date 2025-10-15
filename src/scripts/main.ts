@@ -12,7 +12,7 @@ document.addEventListener('click', (ev) =>
 
 // typescript quirks???
 // (idk what to do here, aside from this ugly typecasting)
-document.forms['words_input' as unknown as number].addEventListener('submit', (ev) =>
+document.forms['words_input' as any].addEventListener('submit', (ev) =>
 {
     ev.preventDefault();
 
@@ -21,15 +21,20 @@ document.forms['words_input' as unknown as number].addEventListener('submit', (e
     let __inputValue = (form['input_text'] as HTMLInputElement).value.trim();
     if (__inputValue.length === 0) return;
 
-    let wordsToDisplay: string[];
+    let __inputValueArr = __inputValue.split(' ');
+    let wordsToDisplay: string[] = [];
 
     if ((form['option_auto_split'] as HTMLInputElement).checked)
     {
-        wordsToDisplay = [ ...sliceStringByLetters(__inputValue, 3) ];
+        for (let word of __inputValueArr)
+        {
+            if (word.length === 0) continue;
+            wordsToDisplay.push(...sliceStringByLetters(word, 3));
+        }
     }
     else
     {
-        wordsToDisplay = [ __inputValue ];
+        wordsToDisplay.push(...__inputValueArr);
     }
 
 
@@ -51,21 +56,17 @@ document.forms['words_input' as unknown as number].addEventListener('submit', (e
 
 window.addEventListener('beforeunload', () =>
 {
-    localStorage.setItem('options',
-        JSON.stringify(getAppPreferencesState())
-    );
+    localStorage.setItem('options', JSON.stringify( Alpine.store('appOptions') ));
 });
 
-(() =>
+document.addEventListener('alpine:init', () =>
 {
     let __storageItem = localStorage.getItem('options');
     if (__storageItem !== null)
     {
-        setAppPreferencesState(JSON.parse(__storageItem));
+        Alpine.store('appOptions', JSON.parse(__storageItem));
     }
-})();
-
-
+});
 
 
 
@@ -201,16 +202,4 @@ function makeElementDraggable(element: HTMLElement)
         document.onmouseup = null;
         document.onmousemove = null;
     }
-}
-
-
-function getAppPreferencesState(): AppOptions
-{
-    return {
-        auto_split : document.querySelector<HTMLInputElement>('main > aside input[name="option_auto_split"]')!.checked,
-    };
-}
-function setAppPreferencesState(state: AppOptions)
-{
-    document.querySelector<HTMLInputElement>('main > aside input[name="option_auto_split"]')!.checked = state.auto_split;
 }

@@ -18,6 +18,7 @@
     <link rel="stylesheet" href="./public/styles.css" />
 
     <script src="./public/main.js" defer></script>
+    <script src="./lib/alpine-3.x.x.min.js" defer></script>
 
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -46,7 +47,7 @@
                 <hr style="margin-top:1.2rem" />
 
                 <label>
-                    Auto split words <input name="option_auto_split" type="checkbox" />
+                    Auto split words <input name="option_auto_split" type="checkbox" x-init="$el.checked = $store.appOptions.auto_split ?? false" @change="$store.appOptions.auto_split = $el.checked" />
                 </label>
 
                 <hr style="margin-top:1.2rem" />

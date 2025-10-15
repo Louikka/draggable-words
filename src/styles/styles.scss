@@ -2,6 +2,8 @@
 :root {
     --tile-background-color : rgb(240, 216, 240);
 
+    --card-font-size : 2.5rem; // default option
+
     --color-plum : plum;
     --color-lightgrey : rgb(193, 179, 193);
     --color-darkteal : rgb(34, 60, 80);
@@ -63,7 +65,7 @@ body {
                 border-radius : .1rem;
                 cursor : pointer;
 
-                font-size : 2.5rem;
+                font-size : var(--card-font-size);
             }
 
         }
@@ -105,6 +107,21 @@ body {
 
 
             form[name="words_input"] {
+
+                label {
+                    display : block;
+                }
+
+
+                select {
+                    background-color : var(--color-lightgrey);
+                    border : none;
+                    border-radius : .1rem;
+
+                    font : inherit;
+                    color : inherit;
+                }
+
 
                 input[type="text"] {
                     padding : .2rem .5rem;
