@@ -100,6 +100,10 @@ body {
                 //border : 1px solid var(--tile-border-color);
 
                 font-size : var(--tile-font-size);
+
+                &.found {
+                    background-color : #6ce01f;
+                }
             }
 
         }
@@ -123,11 +127,6 @@ body {
                     border-radius : 999em;
                 }
 
-            }
-
-
-            hr {
-                color : var(--button-background-color-light);
             }
 
 

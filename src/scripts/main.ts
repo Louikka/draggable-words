@@ -21,8 +21,12 @@ document.forms['words_input' as any].addEventListener('submit', (ev) =>
     let __inputValue = (form['input_text'] as HTMLInputElement).value.trim();
     if (__inputValue.length === 0) return;
 
-    let __inputValueArr = __inputValue.split(' ');
     let wordsToDisplay: string[] = [];
+
+
+    // auto split
+
+    let __inputValueArr = __inputValue.split(' ');
 
     if ((form['option_auto_split'] as HTMLInputElement).checked)
     {
@@ -45,6 +49,11 @@ document.forms['words_input' as any].addEventListener('submit', (ev) =>
         e.innerText = wordsToDisplay[i];
 
         makeElementDraggable(e);
+
+        e.addEventListener('dblclick', () =>
+        {
+            e.classList.toggle('found');
+        });
 
         document.querySelector('main .canvas')!.append(e);
 

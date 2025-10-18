@@ -5,8 +5,8 @@ document.forms['words_input'].addEventListener('submit', (ev) => {
     let __inputValue = form['input_text'].value.trim();
     if (__inputValue.length === 0)
         return;
-    let __inputValueArr = __inputValue.split(' ');
     let wordsToDisplay = [];
+    let __inputValueArr = __inputValue.split(' ');
     if (form['option_auto_split'].checked) {
         for (let word of __inputValueArr) {
             if (word.length === 0)
@@ -22,6 +22,9 @@ document.forms['words_input'].addEventListener('submit', (ev) => {
         e.classList.add('tile', 'draggable');
         e.innerText = wordsToDisplay[i];
         makeElementDraggable(e);
+        e.addEventListener('dblclick', () => {
+            e.classList.toggle('found');
+        });
         document.querySelector('main .canvas').append(e);
         setElementRandomPosition(e, document.querySelector('main > .canvas'));
     }
