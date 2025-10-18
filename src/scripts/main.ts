@@ -41,7 +41,7 @@ document.forms['words_input' as any].addEventListener('submit', (ev) =>
     for (let i = 0; i < wordsToDisplay.length; i++)
     {
         let e = document.createElement('div');
-        e.classList.add('card');
+        e.classList.add('tile', 'draggable');
         e.innerText = wordsToDisplay[i];
 
         makeElementDraggable(e);

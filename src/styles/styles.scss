@@ -1,13 +1,20 @@
 
 :root {
-    --tile-background-color : rgb(240, 216, 240);
+    --tile-font-size : 2.5rem; // default option
 
-    --card-font-size : 2.5rem; // default option
+    --color-silver : #c4bbaf;
+    --color-cinereous : #a5978b;
+    --color-liver : #5c4742;
+    --color-redwood : #8d5b4c;
+    --color-caput-mortuum : #5a2a27;
 
-    --color-plum : plum;
-    --color-lightgrey : rgb(193, 179, 193);
-    --color-darkteal : rgb(34, 60, 80);
-    --color-darkteal-transparent : rgba(34, 60, 80, .2);
+    --main-background-color : var(--color-redwood);
+
+    --tile-background-color : var(--color-silver);
+    --tile-border-color : var(--color-liver);
+    --tile-shadow-color : var(--color-liver);
+
+    --button-background-color-light : var(--color-cinereous);
 }
 
 html {
@@ -24,7 +31,7 @@ body {
     height : 100%;
     margin : 0;
 
-    background-color : var(--color-plum);
+    background-color : var(--main-background-color);
 
     font-family : 'Noto Sans', sans-serif;
     font-variation-settings : "wdth" 100;
@@ -42,10 +49,40 @@ body {
             top : 0;
             left : 1rem;
 
-            padding : .5rem 1rem;
+            // side padding should be AT LEAST the same as border-radius
+            padding : .2rem .5rem;
 
             background-color : var(--tile-background-color);
             border-radius : 0 0 .5rem .5rem;
+
+            &::before, &::after {
+                content : '';
+
+                position : absolute;
+                top : 0;
+
+                height : .5rem; // same as border-radius of parent
+                aspect-ratio : 1/1;
+
+                background-color : inherit;
+
+                // https://stackoverflow.com/questions/1734745/how-to-create-circle-with-b%C3%A9zier-curves
+                clip-path : shape(
+                    from 0 0,
+                    line to 100% 0,
+                    curve to 0 100% with 44.77% 0 / 0 44.77%,
+                    /*line to 0 0,*/
+                    close
+                );
+            }
+            &::before {
+                left : 0;
+                transform : translateX(-100%) rotate(90deg);
+            }
+            &::after {
+                right : 0;
+                transform : translateX(100%);
+            }
         }
 
 
@@ -55,17 +92,14 @@ body {
             height : 100%;
 
 
-            .card {
+            .tile {
                 position : absolute;
 
                 padding : .2rem .5rem;
 
-                background-color : var(--tile-background-color);
-                border : 1px solid var(--color-darkteal-transparent);
-                border-radius : .1rem;
-                cursor : pointer;
+                //border : 1px solid var(--tile-border-color);
 
-                font-size : var(--card-font-size);
+                font-size : var(--tile-font-size);
             }
 
         }
@@ -78,9 +112,6 @@ body {
 
             padding : 1rem;
 
-            background-color : var(--tile-background-color);
-            border-radius : .5rem;
-
 
             > .toggle_button {
                 transform : translate(-1%, -40%);
@@ -89,20 +120,14 @@ body {
                 input {
                     padding : 0 .7rem;
 
-                    background-color : var(--color-lightgrey);
-                    border : none;
                     border-radius : 999em;
-                    cursor : pointer;
-
-                    font : inherit;
-                    color : inherit;
                 }
 
             }
 
 
             hr {
-                color : var(--color-lightgrey);
+                color : var(--button-background-color-light);
             }
 
 
@@ -113,41 +138,10 @@ body {
                 }
 
 
-                select {
-                    background-color : var(--color-lightgrey);
-                    border : none;
-                    border-radius : .1rem;
-
-                    font : inherit;
-                    color : inherit;
-                }
-
-
-                input[type="text"] {
+                input[type="text"], input[type="button"], input[type="submit"] {
                     padding : .2rem .5rem;
 
                     display : block;
-
-                    background-color : var(--color-lightgrey);
-                    border : none;
-                    border-radius : .1rem;
-
-                    font : inherit;
-                    color : inherit;
-                }
-
-                input[type="button"], input[type="submit"] {
-                    padding : .2rem .5rem;
-
-                    display : block;
-
-                    background-color : var(--color-lightgrey);
-                    border : none;
-                    border-radius : .1rem;
-                    cursor : pointer;
-
-                    font : inherit;
-                    color : inherit;
                 }
 
                 input[type="checkbox"] {
@@ -155,7 +149,7 @@ body {
 
                     vertical-align : middle;
 
-                    //background-color : var(--color-lightgrey);
+                    //background-color : var();
                     //border : none;
                     //border-radius : .1rem;
 
@@ -207,5 +201,36 @@ a.link {
 
     &[target="_blank"]::after {
         content : '\2197';
+    }
+}
+
+input[type="text"],
+input[type="button"],
+input[type="submit"] {
+    border : none;
+    border-radius : .1rem;
+
+    font : inherit;
+    color : inherit;
+
+    &.light {
+        background-color : var(--button-background-color-light);
+    }
+
+    &[type="button"]:not(:disabled),
+    &[type="submit"]:not(:disabled) {
+        cursor : pointer;
+    }
+}
+
+
+
+.tile {
+    background-color : var(--tile-background-color);
+    border-radius : .5rem;
+    box-shadow : .2rem .3rem .3rem 0 var(--tile-shadow-color);
+
+    &.draggable {
+        cursor : pointer;
     }
 }

@@ -32,28 +32,34 @@
         <div class="canvas"></div>
 
         <div class="side_panel_toggle" hidden>
-            <input type="button" value="Open side panel" onclick="toggleSidePanel(true)" />
+            <input class="light" type="button" value="Open side panel" onclick="toggleSidePanel(true)" />
         </div>
 
-        <aside>
+        <aside class="tile">
             <div class="toggle_button">
-                <input type="button" value="-" onclick="toggleSidePanel(false)" />
+                <input class="light" type="button" value="-" onclick="toggleSidePanel(false)" />
             </div>
 
             <form name="words_input">
-                <input name="input_text" type="text" placeholder="Enter word..." />
-                <input name="input_button" type="submit" style="margin-top:.5rem" />
+                <section>
+                    <input class="light" name="input_text" type="text" placeholder="Enter word..." />
+                    <input class="light" name="input_button" type="submit" style="margin-top:.5rem" />
+                </section>
 
                 <hr style="margin-top:1.2rem" />
 
-                <label>
-                    Auto split words <input name="option_auto_split" type="checkbox" x-init="$el.checked = $store.appOptions.auto_split ?? false" @change="$store.appOptions.auto_split = $el.checked" />
-                </label>
+                <section>
+                    <label>
+                        Auto split words <input name="option_auto_split" type="checkbox" x-init="$el.checked = $store.appOptions.auto_split ?? false" @change="$store.appOptions.auto_split = $el.checked" />
+                    </label>
+                </section>
 
                 <hr style="margin-top:1.2rem" />
 
-                <input type="button" value="Clear canvas" onclick="clearCanvas()" />
-                <input type="button" value="Toggle fullscreen" style="margin-top:.5rem" onclick="toggleFullscreen()" />
+                <section>
+                    <input class="light" type="button" value="Clear canvas" onclick="clearCanvas()" />
+                    <input class="light" type="button" value="Toggle fullscreen" style="margin-top:.5rem" onclick="toggleFullscreen()" />
+                </section>
             </form>
         </aside>
     </main>
