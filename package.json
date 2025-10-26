@@ -3,17 +3,17 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "rollup --config",
-    "postbuild": "sass src/styles/:public/ --no-source-map && postcss public/*.css -r --no-map -u autoprefixer -u cssnano",
     "watch": "rollup --config -w"
   },
   "devDependencies": {
     "@rollup/plugin-node-resolve": "^16.0.3",
     "@rollup/plugin-terser": "^0.4.4",
     "@rollup/plugin-typescript": "^12.3.0",
+    "@types/alpinejs": "^3.13.11",
     "autoprefixer": "^10.4.21",
     "cssnano": "^7.1.1",
     "postcss": "^8.5.6",
-    "postcss-cli": "^11.0.1",
+    "rollup-plugin-postcss": "^4.0.2",
     "sass": "^1.93.2",
     "tslib": "^2.8.1",
     "typescript": "^5.9.3"

@@ -1,3 +1,5 @@
+import '../styles/styles.scss'; // ???????
+
 import Alpine from 'alpinejs';
 import { makeElementDraggable, setElementRandomPosition } from './draggables';
 

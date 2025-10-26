@@ -1,6 +1,9 @@
 import node_resolve from '@rollup/plugin-node-resolve';
 import typescript from '@rollup/plugin-typescript';
 import terser from '@rollup/plugin-terser';
+import postcss from 'rollup-plugin-postcss';
+
+import autoprefixer from 'autoprefixer';
 
 
 
@@ -13,7 +16,6 @@ export default [
     {
         input : 'src/scripts/main.ts',
         output : {
-            //dir : 'public/',
             file : 'public/bundle.js',
             format : 'iife',
         },
@@ -22,6 +24,14 @@ export default [
             node_resolve(),
             typescript(),
             terser(TERSER_CONFIG),
+
+            postcss({
+                extract : true,
+                plugins : [
+                    autoprefixer(),
+                ],
+                minimize : true,
+            }),
         ],
     },
 ];
