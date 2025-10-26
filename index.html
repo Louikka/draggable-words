@@ -17,8 +17,7 @@
 
     <link rel="stylesheet" href="./public/styles.css" />
 
-    <script src="./public/main.js" defer></script>
-    <script src="./lib/alpine-3.x.x.min.js" defer></script>
+    <script src="./public/bundle.js" defer></script>
 
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -50,7 +49,7 @@
 
                 <section>
                     <label>
-                        Auto split words <input name="option_auto_split" type="checkbox" x-init="$el.checked = $store.appOptions.auto_split ?? false" @change="$store.appOptions.auto_split = $el.checked" />
+                        Auto split words <input name="option_auto_split" type="checkbox" x-init="$el.checked = $store.localOptions.auto_split ?? false" @change="$store.localOptions.auto_split = $el.checked" />
                     </label>
                 </section>
 

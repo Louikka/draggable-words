@@ -1,3 +1,59 @@
+import Alpine from 'alpinejs';
+import { makeElementDraggable, setElementRandomPosition } from './draggables';
+
+
+
+/* globals declaration and implementation ************************************/
+
+declare global {
+    interface Window {
+        toggleFullscreen: (toggle?: boolean) => void;
+        toggleSidePanel: (toggle?: boolean) => void;
+        clearCanvas: () => void;
+    }
+}
+
+window.toggleFullscreen = (toggle?: boolean) =>
+{
+    if (toggle ?? document.fullscreenElement === null)
+    {
+        document.documentElement.requestFullscreen().catch((err) =>
+        {
+            alert(`An error occurred while trying to switch into fullscreen mode : ${err.message} (${err.name}).`);
+        });
+    }
+    else
+    {
+        document.exitFullscreen();
+    }
+}
+
+window.toggleSidePanel = (toggle?: boolean) =>
+{
+    const e = document.querySelector<HTMLElement>('main > aside')!;
+    const openButton = document.querySelector<HTMLElement>('main > .side_panel_toggle')!;
+
+    if (toggle ?? e.hidden)
+    {
+        e.hidden = false;
+        openButton.hidden = true;
+    }
+    else
+    {
+        e.hidden = true;
+        openButton.hidden = false;
+    }
+}
+
+window.clearCanvas = () =>
+{
+    document.querySelector('main > .canvas')!.innerHTML = '';
+}
+
+
+
+/* global ivent listneters ***************************************************/
+
 /*
 document.addEventListener('click', (ev) =>
 {
@@ -65,56 +121,37 @@ document.forms['words_input' as any].addEventListener('submit', (ev) =>
 
 window.addEventListener('beforeunload', () =>
 {
-    localStorage.setItem('options', JSON.stringify( Alpine.store('appOptions') ));
+    localStorage.setItem('options', JSON.stringify( Alpine.store('localOptions') ));
 });
 
 document.addEventListener('alpine:init', () =>
 {
-    let __storageItem = localStorage.getItem('options');
-    if (__storageItem !== null)
+    // locally saved preferences
+    let __localStorageOptions = localStorage.getItem('options');
+    if (__localStorageOptions !== null)
     {
-        Alpine.store('appOptions', JSON.parse(__storageItem));
+        Alpine.store('localOptions', JSON.parse(__localStorageOptions));
+    }
+    else
+    {
+        Alpine.store('localOptions', {});
+    }
+
+    // session preferences
+    let __sessionStorageOptions = sessionStorage.getItem('options');
+    if (__sessionStorageOptions !== null)
+    {
+        Alpine.store('sessionOptions', JSON.parse(__sessionStorageOptions));
+    }
+    else
+    {
+        Alpine.store('sessionOptions', {});
     }
 });
 
 
 
-function toggleFullscreen(toggle?: boolean)
-{
-    if (toggle ?? document.fullscreenElement === null)
-    {
-        document.documentElement.requestFullscreen().catch((err) =>
-        {
-            alert(`An error occurred while trying to switch into fullscreen mode : ${err.message} (${err.name}).`);
-        });
-    }
-    else
-    {
-        document.exitFullscreen();
-    }
-}
-
-function toggleSidePanel(toggle?: boolean)
-{
-    const e = document.querySelector<HTMLElement>('main > aside')!;
-    const openButton = document.querySelector<HTMLElement>('main > .side_panel_toggle')!;
-
-    if (toggle ?? e.hidden)
-    {
-        e.hidden = false;
-        openButton.hidden = true;
-    }
-    else
-    {
-        e.hidden = true;
-        openButton.hidden = false;
-    }
-}
-
-function clearCanvas()
-{
-    document.querySelector('main > .canvas')!.innerHTML = '';
-}
+/* actual code ***************************************************************/
 
 function sliceStringByLetters(s: string, byNoOfLetters = 1): string[]
 {
@@ -145,70 +182,6 @@ function sliceStringByLetters(s: string, byNoOfLetters = 1): string[]
     return res;
 }
 
-function setElementRandomPosition(element: HTMLElement, boundaryElement = document.documentElement)
-{
-    element.style.top = Math.floor(Math.random() * boundaryElement.offsetHeight) + 'px';
-    element.style.left = Math.floor(Math.random() * boundaryElement.offsetWidth) + 'px';
-
-    if (isElementOutOfBoundaries(element, boundaryElement))
-    {
-        console.log('Element is out of boundaries.', element);
-        setElementRandomPosition(element, boundaryElement);
-    }
-}
-function isElementOutOfBoundaries(element: HTMLElement, boundaryElement = document.documentElement): boolean
-{
-    const childRect = element.getBoundingClientRect();
-    const parentRect = boundaryElement.getBoundingClientRect();
-
-    return (
-        childRect.top < parentRect.top ||
-        childRect.right > parentRect.right ||
-        childRect.bottom > parentRect.bottom ||
-        childRect.left < parentRect.left
-    );
-}
-
-function makeElementDraggable(element: HTMLElement)
-{
-    let pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
-
-    element.addEventListener('mousedown', dragMouseDown);
 
 
-    function dragMouseDown(ev: MouseEvent)
-    {
-        ev.preventDefault();
-
-        // get the mouse cursor position at startup
-        pos3 = ev.clientX;
-        pos4 = ev.clientY;
-
-        document.onmouseup = closeDragElement;
-
-        // call a function whenever the cursor moves
-        document.onmousemove = elementDrag;
-    }
-
-    function elementDrag(ev: MouseEvent)
-    {
-        ev.preventDefault();
-
-        // calculate the new cursor position
-        pos1 = pos3 - ev.clientX;
-        pos2 = pos4 - ev.clientY;
-        pos3 = ev.clientX;
-        pos4 = ev.clientY;
-
-        // set the element's new position
-        element.style.top = (element.offsetTop - pos2) + 'px';
-        element.style.left = (element.offsetLeft - pos1) + 'px';
-    }
-
-    function closeDragElement(ev: MouseEvent)
-    {
-        // stop moving when mouse button is released
-        document.onmouseup = null;
-        document.onmousemove = null;
-    }
-}
+Alpine.start();
