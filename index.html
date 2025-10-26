@@ -51,7 +51,7 @@
                     <label>
                         Auto split words <input name="option_auto_split" type="checkbox" x-init="$el.checked = $store.localOptions.auto_split ?? false" @change="$store.localOptions.auto_split = $el.checked" />
                     </label>
-                    <label>
+                    <label style="margin-top:.5rem">
                         Use language
                         <select class="light" name="option_split_language" x-init="$el.value = $store.localOptions.split_language ?? 'none'" @change="$store.localOptions.split_language = $el.value">
                             <option value="none">None</option>
