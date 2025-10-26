@@ -20,6 +20,7 @@
   },
   "private": true,
   "dependencies": {
-    "alpinejs": "^3.15.0"
+    "alpinejs": "^3.15.0",
+    "simi-syllable": "^1.0.0"
   }
 }

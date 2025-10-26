@@ -2,6 +2,7 @@ import '../styles/styles.scss'; // ???????
 
 import Alpine from 'alpinejs';
 import { makeElementDraggable, setElementRandomPosition } from './draggables';
+import * as simiSyllable from 'simi-syllable';
 
 
 
@@ -82,16 +83,27 @@ document.forms['words_input' as any].addEventListener('submit', (ev) =>
     let wordsToDisplay: string[] = [];
 
 
-    // auto split
-
     let __inputValueArr = __inputValue.split(' ');
+    let splitFunction: (s: string) => string[];
+
+    switch ((form['option_split_language'] as HTMLSelectElement).value)
+    {
+        case 'en' : splitFunction = simiSyllable.syllabifyEn;
+        break;
+
+        case 'es' : splitFunction = simiSyllable.syllabifyEs;
+        break;
+
+        default : splitFunction = sliceStringByLetters;
+        break;
+    }
 
     if ((form['option_auto_split'] as HTMLInputElement).checked)
     {
         for (let word of __inputValueArr)
         {
             if (word.length === 0) continue;
-            wordsToDisplay.push(...sliceStringByLetters(word, 3));
+            wordsToDisplay.push(...splitFunction(word));
         }
     }
     else
