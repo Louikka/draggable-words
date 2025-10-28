@@ -37,7 +37,8 @@
             <nav>
                 <menu>
                     <li class="to_canvas"> <a class="button-preset violet round-except-bottom-right" href="#canvas">To canvas</a> </li>
-                    <li class="repo"> <a class="button-preset violet round-except-top-right" href="https://github.com/Louikka/draggable-words" target="_blank">GitHub repository</a> </li>
+                    <li class="repo"> <a class="button-preset violet round-except-top-right" href="https://github.com/Louikka/draggable-words">GitHub repository..</a> </li>
+                    <li> <button class="button-preset violet round-except-bottom-left" type="button">This do nothing :)</button> </li>
                 </menu>
             </nav>
         </div>
@@ -45,7 +46,7 @@
 
     <main>
         <div class="wrapper">
-            <section class="title" style="margin-top:8rem">
+            <section class="title" style="margin-top:7rem">
                 <h1>
                     <span style="margin-left:1rem">Drag the words.</span><br />
                     <span style="margin-left:2.5rem">Split the words.</span>
@@ -54,6 +55,12 @@
                     Lorem ipsum dolor sit amet, consectetur adipiscing elit,<br />
                     sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
                 </p>
+
+                <div class="example-tile before" style="top:0;right:15%;transform:rotate(-15deg)">beautiful</div>
+                <img class="example-img" src="./assets/curved-arrow-4582.svg" style="top:25%;right:14%;transform:rotate(200deg)" />
+                <div class="example-tile after-1" style="top:52%;right:28%;transform:rotate(10deg)">beau</div>
+                <div class="example-tile after-2" style="top:60%;right:21%;transform:rotate(2deg)">ti</div>
+                <div class="example-tile after-3" style="top:55%;right:12%;transform:rotate(-10deg)">ful</div>
             </section>
 
             <section class="options" style="margin-top:8rem">
@@ -78,7 +85,7 @@
                     <hr />
 
                     <section class="main_input_form-options">
-                        <p>
+                        <div>
                             <label>
                                 Auto split words
                                 <input
@@ -88,8 +95,8 @@
                                     @change="$store.inputOptions.is_split = $el.checked"
                                 />
                             </label>
-                        </p>
-                        <p x-cloak x-show="$store.inputOptions.is_split">
+                        </div>
+                        <div x-cloak x-show="$store.inputOptions.is_split">
                             <label>
                                 Use language
                                 <select
@@ -103,8 +110,8 @@
                                     <option value="es">Spanish</option>
                                 </select>
                             </label>
-                        </p>
-                        <p x-cloak x-show="$store.inputOptions.is_split && $store.inputOptions.language === 'none'">
+                        </div>
+                        <div x-cloak x-show="$store.inputOptions.is_split && $store.inputOptions.language === 'none'">
                             <label>
                                 Split by
                                 <input
@@ -118,7 +125,7 @@
                                 />
                                 character(s)
                             </label>
-                        </p>
+                        </div>
                     </section>
 
                     <hr />
@@ -139,12 +146,23 @@
     <div id="canvas" style="margin:1rem 0"></div>
 
     <footer>
-        <section style="margin-left:2rem">
-            <a href="https://github.com/Louikka/draggable-words" target="_blank">GitHub</a>
-        </section>
-        <section style="margin-left:2rem">
-            <small>&copy; Copyright 2025</small>
-        </section>
+        <div class="wrapper">
+            <div class="sections">
+                <section class="credits">
+                    <h3>Credits</h3>
+                    <hr />
+                    <div class="contributor">
+                        <a href="https://github.com/Louikka" title="github repo">Me, I guess...</a>
+                    </div>
+                    <div class="contributor">
+                        Arrow icon by <a href='https://iconpacks.net/?utm_source=link-attribution&utm_content=4582'>Iconpacks..</a>
+                    </div>
+                </section>
+            </div>
+            <div class="copyright" style="margin-top:1rem">
+                <small>&copy; Copyright 2025</small>
+            </div>
+        </div>
     </footer>
 </body>
 

@@ -104,16 +104,43 @@ body {
 
 
         section.title {
+            position : relative;
+
             padding : 2rem;
 
 
             h1 {
                 font-size : 2.5rem;
                 text-transform : uppercase;
+
+
+                > span {
+                    line-height : 1.5;
+                }
+
             }
 
             p {
                 font-size : 1.2rem;
+                line-height : 1.5;
+            }
+
+
+            .example-tile {
+                position : absolute;
+
+                padding : .2rem .5rem;
+
+                background-color : var(--tile-background-color);
+                border : 1px solid black;
+                border-radius : 1rem;
+
+                font-size : 3rem;
+            }
+            .example-img {
+                position : absolute;
+
+                width : 3rem;
             }
 
         }
@@ -142,11 +169,8 @@ body {
 
                 .main_input_form-options {
 
-                    > p:first-child {
-                        margin-top : 0;
-                    }
-                    > p:last-child {
-                        margin-bottom : 0;
+                    > :not(:first-child) {
+                        margin-top : .5rem;
                     }
 
                 }
@@ -191,13 +215,49 @@ body {
 
 
     footer {
-        padding : 1rem;
-
         background-color : rgb(30, 30, 30);
 
         font-family : 'Segoe UI', Verdana, sans-serif;
         color : var(--main-font-color);
         letter-spacing : .04em;
+
+
+        > .wrapper {
+            padding : 1rem 3rem;
+
+
+            > .sections {
+
+                > section {
+                    padding : 1rem 0;
+
+                    display : inline-block;
+
+                    &:not(:first-child) {
+                        margin-left : 2rem;
+                    }
+
+
+                    h3 {
+                        margin : 0;
+
+                        font-weight : normal;
+                    }
+
+                    hr {
+                        width : 5rem;
+                        margin-left : 0;
+                    }
+
+                    .contributor {
+                        margin-top : .25rem;
+                    }
+
+                }
+
+            }
+
+        }
 
 
         a:hover {
@@ -222,6 +282,8 @@ a {
 
     &[target="_blank"]::after {
         content : '\2197';
+
+        padding-left : .2em;
     }
 }
 
@@ -229,12 +291,14 @@ input[type="text"],
 input[type="button"],
 input[type="submit"],
 input[type="number"],
+button,
 select {
     font : inherit;
     color : inherit;
 
     &[type="button"]:not(:disabled),
-    &[type="submit"]:not(:disabled) {
+    &[type="submit"]:not(:disabled),
+    button:not(:disabled) {
         cursor : pointer;
     }
 
