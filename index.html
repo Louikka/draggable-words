@@ -15,6 +15,7 @@
 
     <title>Draggable Words</title>
 
+
     <link rel="stylesheet" href="./public/bundle.css" />
 
     <script src="./public/bundle.js" defer></script>
@@ -22,60 +23,126 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,100..900;1,100..900&display=swap" />
+
+    <style>
+        [x-cloak] { display : none !important }
+    </style>
 </head>
 
 
 
 <body x-data>
-    <main>
-        <div class="canvas"></div>
-
-        <div class="side_panel_toggle" hidden>
-            <input class="light" type="button" value="Open side panel" onclick="toggleSidePanel(true)" />
+    <header>
+        <div class="wrapper">
+            <nav>
+                <menu>
+                    <li class="to_canvas"> <a class="button-preset violet round-except-bottom-right" href="#canvas">To canvas</a> </li>
+                    <li class="repo"> <a class="button-preset violet round-except-top-right" href="https://github.com/Louikka/draggable-words" target="_blank">GitHub repository</a> </li>
+                </menu>
+            </nav>
         </div>
+    </header>
 
-        <aside class="tile">
-            <div class="toggle_button">
-                <input class="light" type="button" value="-" onclick="toggleSidePanel(false)" />
-            </div>
+    <main>
+        <div class="wrapper">
+            <section class="title" style="margin-top:8rem">
+                <h1>
+                    <span style="margin-left:1rem">Drag the words.</span><br />
+                    <span style="margin-left:2.5rem">Split the words.</span>
+                </h1>
+                <p style="margin-left:4rem">
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit,<br />
+                    sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                </p>
+            </section>
 
-            <form name="words_input">
-                <section>
-                    <input class="light" name="input_text" type="text" placeholder="Enter word..." />
-                    <input class="light" name="input_button" type="submit" style="margin-top:.5rem" />
-                </section>
+            <section class="options" style="margin-top:8rem">
+                <form name="main_input">
+                    <section>
+                        <p>Enter words here. Use spaces to separate them.</p>
+                        <div>
+                            <input
+                                class="button-preset blue round-except-bottom-right"
+                                name="input_text"
+                                type="text"
+                                placeholder="Enter word..."
+                            />
+                            <input
+                                class="button-preset violet round-except-top-left"
+                                name="input_button"
+                                type="submit"
+                            />
+                        </div>
+                    </section>
 
-                <hr style="margin-top:1.2rem" />
+                    <hr />
 
-                <section>
-                    <label>
-                        Auto split words <input name="option_auto_split" type="checkbox" x-init="$el.checked = $store.localOptions.auto_split ?? false" @change="$store.localOptions.auto_split = $el.checked" />
-                    </label>
-                    <label style="margin-top:.5rem">
-                        Use language
-                        <select class="light" name="option_split_language" x-init="$el.value = $store.localOptions.split_language ?? 'none'" @change="$store.localOptions.split_language = $el.value">
-                            <option value="none">None</option>
-                            <option value="en">English</option>
-                            <option value="es">Spanish</option>
-                        </select>
-                    </label>
-                </section>
+                    <section class="main_input_form-options">
+                        <p>
+                            <label>
+                                Auto split words
+                                <input
+                                    name="option_is_split"
+                                    type="checkbox"
+                                    x-init="$el.checked = $store.inputOptions.is_split"
+                                    @change="$store.inputOptions.is_split = $el.checked"
+                                />
+                            </label>
+                        </p>
+                        <p x-cloak x-show="$store.inputOptions.is_split">
+                            <label>
+                                Use language
+                                <select
+                                    class="input-inline violet"
+                                    name="option_language"
+                                    x-init="$el.value = $store.inputOptions.language"
+                                    @change="$store.inputOptions.language = $el.value"
+                                >
+                                    <option value="none">None</option>
+                                    <option value="en">English</option>
+                                    <option value="es">Spanish</option>
+                                </select>
+                            </label>
+                        </p>
+                        <p x-cloak x-show="$store.inputOptions.is_split && $store.inputOptions.language === 'none'">
+                            <label>
+                                Split by
+                                <input
+                                    class="input-inline blue"
+                                    name="option_split_by_no_of_chars"
+                                    type="number"
+                                    min="1"
+                                    style="width:3em"
+                                    x-init="$el.value = $store.inputOptions.split_by_no_of_chars"
+                                    @change="$store.inputOptions.split_by_no_of_chars = $el.value"
+                                />
+                                character(s)
+                            </label>
+                        </p>
+                    </section>
 
-                <hr style="margin-top:1.2rem" />
+                    <hr />
 
-                <section>
-                    <input class="light" type="button" value="Clear canvas" onclick="clearCanvas()" />
-                    <input class="light" type="button" value="Toggle fullscreen" style="margin-top:.5rem" onclick="toggleFullscreen()" />
-                </section>
-            </form>
-        </aside>
+                    <section>
+                        <input
+                            class="button-preset blue round-except-bottom-right"
+                            type="button"
+                            value="Clear canvas"
+                            onclick="clearCanvas()"
+                        />
+                    </section>
+                </form>
+            </section>
+        </div>
     </main>
 
+    <div id="canvas" style="margin:1rem 0"></div>
+
     <footer>
-        <section>
-            <a class="link" href="https://github.com/Louikka/draggable-words" target="_blank">GitHub</a>
+        <section style="margin-left:2rem">
+            <a href="https://github.com/Louikka/draggable-words" target="_blank">GitHub</a>
         </section>
-        <section>
+        <section style="margin-left:2rem">
             <small>&copy; Copyright 2025</small>
         </section>
     </footer>

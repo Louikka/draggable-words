@@ -1,8 +1,10 @@
 import '../styles/styles.scss'; // ???????
 
 import Alpine from 'alpinejs';
-import { makeElementDraggable, setElementRandomPosition } from './draggables';
 import * as simiSyllable from 'simi-syllable';
+
+import { makeElementDraggable, setElementRandomPosition } from './draggables';
+import { sliceStringByLetters, toggleFullscreen } from './utils-abc';
 
 
 
@@ -10,52 +12,27 @@ import * as simiSyllable from 'simi-syllable';
 
 declare global {
     interface Window {
-        toggleFullscreen: (toggle?: boolean) => void;
-        toggleSidePanel: (toggle?: boolean) => void;
+        toggleFullscreen: typeof toggleFullscreen;
         clearCanvas: () => void;
     }
 }
 
-window.toggleFullscreen = (toggle?: boolean) =>
-{
-    if (toggle ?? document.fullscreenElement === null)
-    {
-        document.documentElement.requestFullscreen().catch((err) =>
-        {
-            alert(`An error occurred while trying to switch into fullscreen mode : ${err.message} (${err.name}).`);
-        });
-    }
-    else
-    {
-        document.exitFullscreen();
-    }
-}
-
-window.toggleSidePanel = (toggle?: boolean) =>
-{
-    const e = document.querySelector<HTMLElement>('main > aside')!;
-    const openButton = document.querySelector<HTMLElement>('main > .side_panel_toggle')!;
-
-    if (toggle ?? e.hidden)
-    {
-        e.hidden = false;
-        openButton.hidden = true;
-    }
-    else
-    {
-        e.hidden = true;
-        openButton.hidden = false;
-    }
-}
+window.toggleFullscreen = toggleFullscreen;
 
 window.clearCanvas = () =>
 {
-    document.querySelector('main > .canvas')!.innerHTML = '';
+    document.getElementById('canvas')!.innerHTML = '';
 }
 
 
 
-/* global ivent listneters ***************************************************/
+/* code **********************************************************************/
+
+const MAIN_INPUT_DEFAULT_OPTIONS = {
+    is_split : false,
+    language : 'none',
+    split_by_no_of_chars : 3,
+} as const;
 
 /*
 document.addEventListener('click', (ev) =>
@@ -71,44 +48,60 @@ document.addEventListener('click', (ev) =>
 
 // typescript quirks???
 // (idk what to do here, aside from this ugly typecasting)
-document.forms['words_input' as any].addEventListener('submit', (ev) =>
+document.forms['main_input' as any].addEventListener('submit', (ev) =>
 {
     ev.preventDefault();
 
     const form = ev.currentTarget as HTMLFormElement;
 
-    let __inputValue = (form['input_text'] as HTMLInputElement).value.trim();
-    if (__inputValue.length === 0) return;
+    const formElementInput = form['input_text'] as HTMLInputElement;
+
+    const formElementOptionIsSplit = form['option_is_split'] as HTMLInputElement;
+    const formElementOptionLanguage = form['option_language'] as HTMLSelectElement;
+    const formElementOptionSplitByNoOfChars = form['option_split_by_no_of_chars'] as HTMLInputElement;
+
+    const canvas = document.getElementById('canvas')!;
+
+    let __mainInputValue = formElementInput.value.trim().split(' ');
+    if (__mainInputValue.length === 0) return;
 
     let wordsToDisplay: string[] = [];
 
 
-    let __inputValueArr = __inputValue.split(' ');
-    let splitFunction: (s: string) => string[];
-
-    switch ((form['option_split_language'] as HTMLSelectElement).value)
+    if (formElementOptionIsSplit.checked)
     {
-        case 'en' : splitFunction = simiSyllable.syllabifyEn;
-        break;
-
-        case 'es' : splitFunction = simiSyllable.syllabifyEs;
-        break;
-
-        default : splitFunction = sliceStringByLetters;
-        break;
-    }
-
-    if ((form['option_auto_split'] as HTMLInputElement).checked)
-    {
-        for (let word of __inputValueArr)
+        if (formElementOptionLanguage.value === 'en')
         {
-            if (word.length === 0) continue;
-            wordsToDisplay.push(...splitFunction(word));
+            for (let word of __mainInputValue)
+            {
+                if (word.length === 0) continue;
+                wordsToDisplay.push(...simiSyllable.syllabifyEn(word));
+            }
+        }
+        else if (formElementOptionLanguage.value === 'es')
+        {
+            for (let word of __mainInputValue)
+            {
+                if (word.length === 0) continue;
+                wordsToDisplay.push(...simiSyllable.syllabifyEs(word));
+            }
+        }
+        else
+        {
+            for (let word of __mainInputValue)
+            {
+                if (word.length === 0) continue;
+                wordsToDisplay.push(...sliceStringByLetters(word, +formElementOptionSplitByNoOfChars.value));
+            }
         }
     }
     else
     {
-        wordsToDisplay.push(...__inputValueArr);
+        for (let word of __mainInputValue)
+        {
+            if (word.length === 0) continue;
+            wordsToDisplay.push(word);
+        }
     }
 
 
@@ -125,77 +118,33 @@ document.forms['words_input' as any].addEventListener('submit', (ev) =>
             e.classList.toggle('found');
         });
 
-        document.querySelector('main .canvas')!.append(e);
+        canvas.append(e);
 
-        setElementRandomPosition(e, document.querySelector<HTMLElement>('main > .canvas')!);
+        setElementRandomPosition(e, canvas);
     }
 
-    (form['input_text'] as HTMLInputElement).value = '';
+    canvas.scrollIntoView();
+    formElementInput.value = '';
 });
 
 window.addEventListener('beforeunload', () =>
 {
-    localStorage.setItem('options', JSON.stringify( Alpine.store('localOptions') ));
+    localStorage.setItem('inputOptions', JSON.stringify( Alpine.store('inputOptions') ));
 });
 
 document.addEventListener('alpine:init', () =>
 {
     // locally saved preferences
-    let __localStorageOptions = localStorage.getItem('options');
-    if (__localStorageOptions !== null)
+    let __localStorageInputOptions = localStorage.getItem('inputOptions');
+    if (__localStorageInputOptions !== null)
     {
-        Alpine.store('localOptions', JSON.parse(__localStorageOptions));
+        Alpine.store('inputOptions', JSON.parse(__localStorageInputOptions));
     }
     else
     {
-        Alpine.store('localOptions', {});
-    }
-
-    // session preferences
-    let __sessionStorageOptions = sessionStorage.getItem('options');
-    if (__sessionStorageOptions !== null)
-    {
-        Alpine.store('sessionOptions', JSON.parse(__sessionStorageOptions));
-    }
-    else
-    {
-        Alpine.store('sessionOptions', {});
+        Alpine.store('inputOptions', MAIN_INPUT_DEFAULT_OPTIONS);
     }
 });
-
-
-
-/* actual code ***************************************************************/
-
-function sliceStringByLetters(s: string, byNoOfLetters = 1): string[]
-{
-    if (byNoOfLetters < 1)
-    {
-        byNoOfLetters = 1;
-    }
-    else
-    {
-        byNoOfLetters = Math.floor(byNoOfLetters);
-    }
-
-    let __sub = '';
-    let res: string[] = [];
-
-    for (let i = 0; i < s.length; i++)
-    {
-        __sub += s[i];
-        if ((i + 1) % byNoOfLetters === 0)
-        {
-            res.push(__sub);
-            __sub = '';
-        }
-    }
-
-    if (__sub.length !== 0) res.push(__sub);
-
-    return res;
-}
-
 
 
 Alpine.start();
