@@ -17,6 +17,7 @@ export function toggleFullscreen(element?: Element | null, toggle?: boolean)
     }
 }
 
+/* @__PURE__ */
 export function sliceStringByLetters(s: string, byNoOfLetters = 1): string[]
 {
     if (byNoOfLetters < 1)

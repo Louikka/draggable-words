@@ -9,7 +9,9 @@ export function setElementRandomPosition(element: HTMLElement, boundaryElement =
         setElementRandomPosition(element, boundaryElement);
     }
 }
-export function isElementOutOfBoundaries(element: HTMLElement, boundaryElement = document.documentElement): boolean
+
+/* @__PURE__ */
+export function isElementOutOfBoundaries(element: HTMLElement, boundaryElement: HTMLElement): boolean
 {
     const childRect = element.getBoundingClientRect();
     const parentRect = boundaryElement.getBoundingClientRect();
@@ -22,46 +24,41 @@ export function isElementOutOfBoundaries(element: HTMLElement, boundaryElement =
     );
 }
 
-export function makeElementDraggable(element: HTMLElement)
+export function makeElementDraggable(element: HTMLElement, boundaryElement = document.documentElement)
 {
-    let pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
+    let posX1 = 0, posY1 = 0;
+    let posX2 = 0, posY2 = 0;
 
-    element.addEventListener('mousedown', dragMouseDown);
 
-
-    function dragMouseDown(ev: MouseEvent)
+    element.addEventListener('mousedown', (ev: MouseEvent) =>
     {
         ev.preventDefault();
 
         // get the mouse cursor position at startup
-        pos3 = ev.clientX;
-        pos4 = ev.clientY;
+        posX2 = ev.clientX;
+        posY2 = ev.clientY;
 
-        document.onmouseup = closeDragElement;
 
-        // call a function whenever the cursor moves
-        document.onmousemove = elementDrag;
-    }
+        document.onmousemove = (ev: MouseEvent) =>
+        {
+            ev.preventDefault();
 
-    function elementDrag(ev: MouseEvent)
-    {
-        ev.preventDefault();
+            // calculate the new cursor position
+            posX1 = posX2 - ev.clientX;
+            posY1 = posY2 - ev.clientY;
+            posX2 = ev.clientX;
+            posY2 = ev.clientY;
 
-        // calculate the new cursor position
-        pos1 = pos3 - ev.clientX;
-        pos2 = pos4 - ev.clientY;
-        pos3 = ev.clientX;
-        pos4 = ev.clientY;
+            // set the element's new position
+            element.style.top = (element.offsetTop - posY1) + 'px';
+            element.style.left = (element.offsetLeft - posX1) + 'px';
+        };
 
-        // set the element's new position
-        element.style.top = (element.offsetTop - pos2) + 'px';
-        element.style.left = (element.offsetLeft - pos1) + 'px';
-    }
-
-    function closeDragElement(ev: MouseEvent)
-    {
-        // stop moving when mouse button is released
-        document.onmouseup = null;
-        document.onmousemove = null;
-    }
+        document.onmouseup = () =>
+        {
+            // stop moving when mouse button is released
+            document.onmouseup = null;
+            document.onmousemove = null;
+        }
+    });
 }

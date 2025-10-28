@@ -111,7 +111,7 @@ document.forms['main_input' as any].addEventListener('submit', (ev) =>
         e.classList.add('tile', 'draggable');
         e.innerText = wordsToDisplay[i];
 
-        makeElementDraggable(e);
+        makeElementDraggable(e, canvas);
 
         e.addEventListener('dblclick', () =>
         {
