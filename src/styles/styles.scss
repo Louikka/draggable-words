@@ -1,6 +1,6 @@
 
 :root {
-    --max-width : 1400px;
+    --max-width : 1440px;
 
 
     --tile-font-size : 2.5rem; // default option
@@ -33,7 +33,7 @@ html {
     scrollbar-width : none;
     scroll-behavior : smooth;
 
-    @media (max-width : 1400px) {
+    @media (max-width : 1440px) {
         --max-width : 100%;
     }
 
@@ -141,6 +141,12 @@ body {
                 position : absolute;
 
                 width : 3rem;
+            }
+
+            [class^="example-"] {
+                @media (max-width : 1024px) {
+                    display : none;
+                }
             }
 
         }

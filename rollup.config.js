@@ -22,6 +22,7 @@ export default [
 
         plugins : [
             node_resolve(),
+
             typescript(),
             terser(TERSER_CONFIG),
 
