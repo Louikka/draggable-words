@@ -73,11 +73,9 @@ body {
 
 
                 > li {
-                    display : inline-block;
+                    padding : .2rem;
 
-                    &:not(:first-child) {
-                        margin-left : .5rem;
-                    }
+                    display : inline-block;
 
 
                     a {

@@ -1,4 +1,4 @@
-import '../styles/styles.scss'; // ???????
+import './styles/styles.scss'; // ???????
 
 import Alpine from 'alpinejs';
 import * as simiSyllable from 'simi-syllable';
