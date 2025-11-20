@@ -1,10 +1,10 @@
-import './styles/styles.scss'; // ???????
+import './styles/styles.scss';
 
 import Alpine from 'alpinejs';
 import * as simiSyllable from 'simi-syllable';
 
-import { makeElementDraggable, setElementRandomPosition } from './draggables';
-import { sliceStringByLetters, toggleFullscreen } from './utils-abc';
+import { makeElementDraggable, setElementRandomPosition } from './lib/draggables';
+import { closeAllAsideMenus, getFormInput, sliceStringByLetters, toggleFullscreen } from './lib/utils';
 
 
 
@@ -12,29 +12,42 @@ import { sliceStringByLetters, toggleFullscreen } from './utils-abc';
 
 declare global {
     interface Window {
-        toggleFullscreen: typeof toggleFullscreen;
         clearCanvas: () => void;
     }
 }
 
-window.toggleFullscreen = toggleFullscreen;
-
 window.clearCanvas = () =>
 {
-    document.getElementById('canvas')!.innerHTML = '';
+    document.getElementById('canvas-container')!.innerHTML = '';
 }
 
 
 
 /* code **********************************************************************/
 
-const MAIN_INPUT_DEFAULT_OPTIONS = {
-    is_split : false,
-    language : 'none',
-    split_by_no_of_chars : 3,
+interface AppDefaultPreferences {
+    words: {
+        __debug__: any;
+
+        isSplit: boolean;
+        language: string;
+        splitByNoOfChars: number;
+    };
+}
+
+const APP_DEFAULT_PREFERENCES = {
+    words : {
+        __debug__ : 0,
+
+        isSplit : false,
+        language : 'none',
+        splitByNoOfChars : 3,
+    },
 } as const;
 
-/*
+
+/* global click event handler */
+
 document.addEventListener('click', (ev) =>
 {
     const e = ev.target as HTMLElement;
@@ -43,63 +56,54 @@ document.addEventListener('click', (ev) =>
         console.log(ev);
         throw new Error(`Cannot handle click on element.`);
     }
-});
-*/
 
-// typescript quirks???
-// (idk what to do here, aside from this ugly typecasting)
-document.forms['main_input' as any].addEventListener('submit', (ev) =>
+    if (e.closest('main aside') === null)
+    {
+        closeAllAsideMenus();
+    }
+});
+
+
+/* input form */
+
+document.forms['create_menu' as any].addEventListener('submit', (ev) =>
 {
     ev.preventDefault();
 
     const form = ev.currentTarget as HTMLFormElement;
 
-    const formElementInput = form['input_text'] as HTMLInputElement;
+    const formTextInput = form['create_menu_input_text'] as HTMLInputElement;
 
-    const formElementOptionIsSplit = form['option_is_split'] as HTMLInputElement;
-    const formElementOptionLanguage = form['option_language'] as HTMLSelectElement;
-    const formElementOptionSplitByNoOfChars = form['option_split_by_no_of_chars'] as HTMLInputElement;
+    const optionIsSplit = <HTMLInputElement> document.getElementById('options-menu-option-is-split');
+    const optionLanguage = <HTMLInputElement> document.getElementById('options-menu-option-language');
+    const optionSplitBy = <HTMLInputElement> document.getElementById('options-menu-option-split-by');
 
-    const canvas = document.getElementById('canvas')!;
+    const canvas = document.getElementById('canvas-container')!;
 
-    let __mainInputValue = formElementInput.value.trim().split(' ');
-    if (__mainInputValue.length === 0) return;
+    let input = getFormInput(formTextInput);
 
     let wordsToDisplay: string[] = [];
 
 
-    if (formElementOptionIsSplit.checked)
+    for (let word of input)
     {
-        if (formElementOptionLanguage.value === 'en')
+        if (optionIsSplit.checked)
         {
-            for (let word of __mainInputValue)
+            if (optionLanguage.value === 'en')
             {
-                if (word.length === 0) continue;
                 wordsToDisplay.push(...simiSyllable.syllabifyEn(word));
             }
-        }
-        else if (formElementOptionLanguage.value === 'es')
-        {
-            for (let word of __mainInputValue)
+            else if (optionLanguage.value === 'es')
             {
-                if (word.length === 0) continue;
                 wordsToDisplay.push(...simiSyllable.syllabifyEs(word));
+            }
+            else
+            {
+                wordsToDisplay.push(...sliceStringByLetters(word, +optionSplitBy.value));
             }
         }
         else
         {
-            for (let word of __mainInputValue)
-            {
-                if (word.length === 0) continue;
-                wordsToDisplay.push(...sliceStringByLetters(word, +formElementOptionSplitByNoOfChars.value));
-            }
-        }
-    }
-    else
-    {
-        for (let word of __mainInputValue)
-        {
-            if (word.length === 0) continue;
             wordsToDisplay.push(word);
         }
     }
@@ -123,27 +127,73 @@ document.forms['main_input' as any].addEventListener('submit', (ev) =>
         setElementRandomPosition(e, canvas);
     }
 
-    canvas.scrollIntoView();
-    formElementInput.value = '';
+    formTextInput.value = '';
 });
 
-window.addEventListener('beforeunload', () =>
+
+/* aside buttons */
+
+document.querySelector('main aside .create > .aside-button')!.addEventListener('click', () =>
 {
-    localStorage.setItem('inputOptions', JSON.stringify( Alpine.store('inputOptions') ));
+    const menu = document.querySelector<HTMLElement>('main aside .aside-menu.create-menu')!;
+
+    if (menu.hidden) closeAllAsideMenus();
+    menu.hidden = !menu.hidden;
 });
+document.querySelector('main aside .options > .aside-button')!.addEventListener('click', () =>
+{
+    const menu = document.querySelector<HTMLElement>('main aside .aside-menu.options-menu')!;
+
+    if (menu.hidden) closeAllAsideMenus();
+    menu.hidden = !menu.hidden;
+});
+
+
+/* Alpine.js */
 
 document.addEventListener('alpine:init', () =>
 {
     // locally saved preferences
-    let __localStorageInputOptions = localStorage.getItem('inputOptions');
-    if (__localStorageInputOptions !== null)
+    let __ls = localStorage.getItem('app-data');
+
+    if (__ls === null)
     {
-        Alpine.store('inputOptions', JSON.parse(__localStorageInputOptions));
+        let __lsNew: AppDefaultPreferences = structuredClone(APP_DEFAULT_PREFERENCES);
+
+        // in case there is old version availible
+        let __loOld = localStorage.getItem('inputOptions');
+        if (__loOld !== null)
+        {
+            let __lsOldParsed = JSON.parse(__loOld);
+            // import old data
+            __lsNew.words.isSplit = __lsOldParsed.is_split;
+            __lsNew.words.language = __lsOldParsed.language;
+            __lsNew.words.splitByNoOfChars = __lsOldParsed.split_by_no_of_chars;
+        }
+
+        Alpine.store('app_data', __lsNew);
     }
     else
     {
-        Alpine.store('inputOptions', MAIN_INPUT_DEFAULT_OPTIONS);
+        let __lsParsed: AppDefaultPreferences;
+
+        try
+        {
+            __lsParsed = JSON.parse(__ls);
+            __lsParsed.words.__debug__ = 1;
+        }
+        catch (err)
+        {
+            __lsParsed = structuredClone(APP_DEFAULT_PREFERENCES);
+        }
+
+        Alpine.store('app_data', __lsParsed);
     }
+});
+
+window.addEventListener('beforeunload', () =>
+{
+    localStorage.setItem('app-data', JSON.stringify( Alpine.store('app_data') ));
 });
 
 

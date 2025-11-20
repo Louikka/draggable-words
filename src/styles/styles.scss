@@ -1,9 +1,5 @@
-
 :root {
-    --max-width : 1440px;
-
-
-    --tile-font-size : 2.5rem; // default option
+    --tile-font-size : 2rem;
 
 
     --color-periwinkle : #c6d8ffff;
@@ -13,29 +9,27 @@
     --color-tyrian-purple : #4c1036ff;
 
     --color-green : #6ce01f;
+    --color-softblue : rgb(68, 76, 247);
+    --color-softblue-transparent-08 : rgba(68, 76, 247, .8);
 
 
-    --main-background-color : var(--color-byzantium);
-    --main-font-color : gainsboro;
-    --main-font-color-hover : rgb(186, 186, 186);
+    --main-background-color : gainsboro;
 
-    --main-tile-background-color : gainsboro;
-    --main-tile-font-color : black;
+    --aside-background-color : white;
+    --aside-decorators-color : var(--color-softblue-transparent-08);
 
-    --canvas-background-color : var(--color-tyrian-purple);
+    --aside-button-background-color : transparent;
+    --aside-button-background-color-hover : gainsboro;
 
-    --tile-background-color : var(--color-ultra-violet);
+    --canvas-background-color : gainsboro;
+    --canvas-background-color-secondary : var(--color-softblue-transparent-08);
+
+    --tile-background-color : white;
 }
 
 html {
-    height : 100%;
-
     scrollbar-width : none;
     scroll-behavior : smooth;
-
-    @media (max-width : 1440px) {
-        --max-width : 100%;
-    }
 
     @media (orientation : portrait) {
         font-size : 12px;
@@ -49,180 +43,170 @@ body {
 
     font-family : 'Noto Sans', sans-serif;
     font-variation-settings : "wdth" 100;
-    color : var(--main-font-color);
+    //color : var(--main-font-color);
+}
 
 
-    header {
-        width : 100%;
+#app-main {
 
-
-        > .wrapper {
-            max-width : var(--max-width);
-            margin : 0 auto;
-            padding : .5rem;
-        }
-
-
-        nav {
-            padding : .5rem;
-
-
-            menu {
-                margin : 0;
-                padding : 0;
-
-
-                > li {
-                    padding : .2rem;
-
-                    display : inline-block;
-
-
-                    a {
-                        display : block;
-                    }
-
-                }
-
-            }
-
-        }
-
-    }
-
-
-    main {
-        width : 100%;
-
-
-        > .wrapper {
-            max-width : var(--max-width);
-            margin : 0 auto;
-        }
-
-
-        section.title {
-            position : relative;
-
-            padding : 2rem;
-
-
-            h1 {
-                font-size : 2.5rem;
-                text-transform : uppercase;
-
-
-                > span {
-                    line-height : 1.5;
-                }
-
-            }
-
-            p {
-                font-size : 1.2rem;
-                line-height : 1.5;
-            }
-
-
-            .example-tile {
-                position : absolute;
-
-                padding : .2rem .5rem;
-
-                background-color : var(--tile-background-color);
-                border : 1px solid black;
-                border-radius : 1rem;
-
-                font-size : 3rem;
-            }
-            .example-img {
-                position : absolute;
-
-                width : 3rem;
-            }
-
-            [class^="example-"] {
-                @media (max-width : 1024px) {
-                    display : none;
-                }
-            }
-
-        }
-
-
-        section.options {
-            padding : 1rem;
-
-            background-color : var(--main-tile-background-color);
-            border-radius : 1rem;
-
-            color : var(--main-tile-font-color);
-            text-align : center;
-
-
-            form[name="main_input"] {
-
-                > section {
-                    display : inline-block;
-                }
-
-                > hr {
-                    margin : 1rem 0;
-                }
-
-
-                .main_input_form-options {
-
-                    > :not(:first-child) {
-                        margin-top : .5rem;
-                    }
-
-                }
-
-            }
-
-        }
-
-    }
-
-
-    #canvas {
-        position : relative;
-
-        width : 100vw;
+    > main {
         height : 100vh;
 
-        background-color : var(--canvas-background-color);
-        border-radius : 1rem;
+
+        > .wrapper {
+            height : 100%;
+
+            display : flex;
 
 
-        .tile {
-            position : absolute;
+            > aside {
+                --button-icon-size : 2.5rem;
 
-            padding : .2rem .5rem;
+                position : relative;
+                z-index : 1;
 
-            background-color : var(--tile-background-color);
-            border : 1px solid black;
-            border-radius : 1rem;
+                background-color : var(--aside-background-color);
 
-            font-size : var(--tile-font-size);
 
-            &.draggable {
-                cursor : pointer;
+                .aside-button {
+                    width : var(--button-icon-size);
+                    height : var(--button-icon-size);
+
+                    display : block;
+
+                    background-color : var(--aside-button-background-color);
+                    background-position : center;
+                    background-repeat : no-repeat;
+                    border-radius : .5rem;
+
+                    &:hover, &:active {
+                        background-color : var(--aside-button-background-color-hover);
+                    }
+                }
+
+
+                > .wrapper {
+                    padding : .8rem;
+
+                    display : flex;
+                    flex-direction : column;
+
+
+                    > section {
+                        display : flex;
+                        flex-direction : column;
+                        gap : .2rem;
+
+
+                        &.tools {
+                            > .create > .aside-button {
+                                background-image : url('../assets/pencil.svg');
+                                background-size : 60%;
+                            }
+
+                            > .clear > .aside-button {
+                                background-image : url('../assets/x-lg.svg');
+                                background-size : 60%;
+                            }
+
+                            > .options > .aside-button {
+                                background-image : url('../assets/gear.svg');
+                                background-size : 60%;
+                            }
+                        }
+                        &.links {
+                            > .github > .aside-button {
+                                background-image : url('../assets/github-mark/github-mark.svg');
+                                background-size : 80%;
+                            }
+                        }
+
+                    }
+
+
+                    > hr {
+                        width : 100%;
+                        margin : 1rem 0;
+
+                        border-color : var(--aside-decorators-color);
+                    }
+
+                }
+
+
+                > .aside-menu {
+                    position : absolute;
+                    left : calc(100% + 1rem);
+                    top : 1rem;
+
+                    background-color : var(--aside-background-color);
+                    border-radius : 1rem;
+
+
+                    > .wrapper {
+                        padding : .8rem;
+
+
+                        > *:not(:first-child) {
+                            margin-top : 1rem;
+                        }
+
+                    }
+
+
+                    &.create-menu {
+
+                        form[name="create_menu"] {
+
+                            input[name="create_menu_input_text"] {
+                                border-bottom : 2px solid var(--aside-decorators-color);
+                            }
+
+                        }
+
+                    }
+
+                    &.options-menu {
+                        min-width : 500%;
+
+
+                        select {
+                            border-bottom : 2px solid var(--aside-decorators-color);
+                        }
+
+
+                        input[type="number"] {
+                            border-bottom : 2px solid var(--aside-decorators-color);
+                        }
+
+                    }
+                }
+
             }
 
-            &.found {
-                background-color : var(--color-green);
+
+            > .canvas {
+                flex-grow : 1;
+
+                background-color : var(--canvas-background-color);
+                background-image : radial-gradient(
+                    var(--canvas-background-color-secondary) 1px,
+                    var(--canvas-background-color) 1px
+                );
+                background-size : 20px 20px;
             }
+
         }
+
     }
 
 
-    footer {
+    /*
+    > footer {
         background-color : rgb(30, 30, 30);
 
         font-family : 'Segoe UI', Verdana, sans-serif;
-        color : var(--main-font-color);
+        color : gainsboro;
         letter-spacing : .04em;
 
 
@@ -263,14 +247,36 @@ body {
 
         }
 
+    }
+    */
 
-        a:hover {
-            color : var(--main-font-color-hover);
+}
+
+#canvas-container {
+    position : relative;
+
+
+    .tile {
+        position : absolute;
+
+        padding : .5rem;
+
+        background-color : var(--tile-background-color);
+        border-radius : 1rem;
+
+        font-size : var(--tile-font-size);
+
+        &.draggable {
+            cursor : pointer;
         }
 
+        &.found {
+            background-color : var(--color-green);
+        }
     }
 
 }
+
 
 * {
     box-sizing : border-box;
@@ -283,75 +289,35 @@ a {
     &:visited {
         color : inherit;
     }
-
-    &[target="_blank"]::after {
-        content : '\2197';
-
-        padding-left : .2em;
-    }
 }
 
-input[type="text"],
-input[type="button"],
-input[type="submit"],
-input[type="number"],
-button,
+input,
 select {
+    background-color : transparent;
+    border : none;
+
     font : inherit;
     color : inherit;
 
     &[type="button"]:not(:disabled),
-    &[type="submit"]:not(:disabled),
-    button:not(:disabled) {
+    &[type="submit"]:not(:disabled) {
         cursor : pointer;
     }
 
-    &::placeholder {
-        color : rgb(99, 99, 99);
+    &[type="checkbox"] {
+        vertical-align : middle;
+    }
+
+    &[type="number"] {
+        text-align : center;
     }
 }
 
-input[type="checkbox"] {
+
+.option-not-working::after {
+    content : url('../assets/exclamation-circle.svg');
+
     vertical-align : middle;
-}
 
-
-
-.button-preset {
-    padding : .5rem 1rem;
-
-    border : 1px solid black;
-    border-radius : 1rem;
-
-    &.round-except-top-left {
-        border-top-left-radius : 0;
-    }
-    &.round-except-top-right {
-        border-top-right-radius : 0;
-    }
-    &.round-except-bottom-left {
-        border-bottom-left-radius : 0;
-    }
-    &.round-except-bottom-right {
-        border-bottom-right-radius : 0;
-    }
-
-    &.blue {
-        background-color : var(--color-ruddy-blue);
-    }
-    &.violet {
-        background-color : var(--color-ultra-violet);
-    }
-}
-
-.input-inline {
-    border : 1px solid black;
-    border-radius : .1rem;
-
-    &.blue {
-        background-color : var(--color-ruddy-blue);
-    }
-    &.violet {
-        background-color : var(--color-ultra-violet);
-    }
+    margin-left : .2rem;
 }

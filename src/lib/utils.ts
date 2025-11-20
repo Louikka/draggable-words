@@ -1,3 +1,5 @@
+import { makeElementDraggable } from "./draggables";
+
 /**
  * @param element pass `null` in order to request fullscreen for the entire page (`document.documentElement`).
  * @param toggle `true` to enter, `false` to exit, nothing for toggle.
@@ -45,4 +47,20 @@ export function sliceStringByLetters(s: string, byNoOfLetters = 1): string[]
     if (__sub.length !== 0) res.push(__sub);
 
     return res;
+}
+
+/* @__PURE__ */
+export function getFormInput(e: HTMLInputElement): string[]
+{
+    let v = e.value.trim().split(' ');
+
+    return v.filter(s => s !== '');
+}
+
+export function closeAllAsideMenus()
+{
+    document.querySelectorAll<HTMLElement>('main aside .aside-menu').forEach((e) =>
+    {
+        e.hidden = true;
+    });
 }

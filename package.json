@@ -11,7 +11,6 @@
     "@rollup/plugin-typescript": "^12.3.0",
     "@types/alpinejs": "^3.13.11",
     "autoprefixer": "^10.4.21",
-    "cssnano": "^7.1.1",
     "postcss": "^8.5.6",
     "rollup-plugin-postcss": "^4.0.2",
     "sass": "^1.93.2",
