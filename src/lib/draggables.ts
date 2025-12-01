@@ -10,7 +10,7 @@ export function setElementRandomPosition(element: HTMLElement, boundaryElement =
     }
 }
 
-/* @__PURE__ */
+/* @__NO_SIDE_EFFECTS__ */
 export function isElementOutOfBoundaries(element: HTMLElement, boundaryElement: HTMLElement): boolean
 {
     const childRect = element.getBoundingClientRect();

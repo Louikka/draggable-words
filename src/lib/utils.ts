@@ -19,7 +19,7 @@ export function toggleFullscreen(element?: Element | null, toggle?: boolean)
     }
 }
 
-/* @__PURE__ */
+/* @__NO_SIDE_EFFECTS__ */
 export function sliceStringByLetters(s: string, byNoOfLetters = 1): string[]
 {
     if (byNoOfLetters < 1)
@@ -49,7 +49,7 @@ export function sliceStringByLetters(s: string, byNoOfLetters = 1): string[]
     return res;
 }
 
-/* @__PURE__ */
+/* @__NO_SIDE_EFFECTS__ */
 export function getFormInput(e: HTMLInputElement): string[]
 {
     let v = e.value.trim().split(' ');
