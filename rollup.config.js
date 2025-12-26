@@ -25,6 +25,7 @@ export default [
             node_resolve(),
 
             typescript(),
+
             terser(TERSER_CONFIG),
 
             postcss({
