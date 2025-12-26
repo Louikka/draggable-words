@@ -113,7 +113,7 @@ document.forms['create_menu' as any].addEventListener('submit', (ev) =>
     {
         let e = document.createElement('div');
         e.classList.add('tile', 'draggable');
-        e.innerText = wordsToDisplay[i];
+        e.textContent = wordsToDisplay[i];
 
         makeElementDraggable(e, canvas);
 

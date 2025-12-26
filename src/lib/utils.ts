@@ -1,5 +1,3 @@
-import { makeElementDraggable } from "./draggables";
-
 /**
  * @param element pass `null` in order to request fullscreen for the entire page (`document.documentElement`).
  * @param toggle `true` to enter, `false` to exit, nothing for toggle.
@@ -22,13 +20,15 @@ export function toggleFullscreen(element?: Element | null, toggle?: boolean)
 /* @__NO_SIDE_EFFECTS__ */
 export function sliceStringByLetters(s: string, byNoOfLetters = 1): string[]
 {
+    if (byNoOfLetters === 0) return [ s, ];
+
     if (byNoOfLetters < 1)
     {
         byNoOfLetters = 1;
     }
     else
     {
-        byNoOfLetters = Math.floor(byNoOfLetters);
+        byNoOfLetters = Math.trunc(byNoOfLetters);
     }
 
     let __sub = '';

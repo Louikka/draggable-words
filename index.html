@@ -101,7 +101,7 @@
                                     />
                                 </label>
                             </div>
-                            <div :class="$store.app_data.words.isSplit ? '' : 'option-not-working'">
+                            <div>
                                 <label>
                                     Use language
                                     <select
@@ -115,7 +115,7 @@
                                     </select>
                                 </label>
                             </div>
-                            <div :class="$store.app_data.words.isSplit ? 'option-not-working' : ''">
+                            <div>
                                 <label>
                                     Split by
                                     <input
@@ -134,56 +134,6 @@
                 </aside>
 
                 <div id="canvas-container" class="canvas"></div>
-
-                <!--<div class="wrapper">
-                    <section class="options" style="margin-top:8rem">
-                        <form name="main_input">
-                            <section class="main_input_form-options">
-                                <div>
-                                    <label>
-                                        Auto split words
-                                        <input
-                                            name="option_is_split"
-                                            type="checkbox"
-                                            x-init="$el.checked = $store.inputOptions.is_split"
-                                            @change="$store.inputOptions.is_split = $el.checked"
-                                        />
-                                    </label>
-                                </div>
-                                <div x-cloak x-show="$store.inputOptions.is_split">
-                                    <label>
-                                        Use language
-                                        <select
-                                            class="input-inline violet"
-                                            name="option_language"
-                                            x-init="$el.value = $store.inputOptions.language"
-                                            @change="$store.inputOptions.language = $el.value"
-                                        >
-                                            <option value="none">None</option>
-                                            <option value="en">English</option>
-                                            <option value="es">Spanish</option>
-                                        </select>
-                                    </label>
-                                </div>
-                                <div x-cloak x-show="$store.inputOptions.is_split && $store.inputOptions.language === 'none'">
-                                    <label>
-                                        Split by
-                                        <input
-                                            class="input-inline blue"
-                                            name="option_split_by_no_of_chars"
-                                            type="number"
-                                            min="1"
-                                            style="width:3em"
-                                            x-init="$el.value = $store.inputOptions.split_by_no_of_chars"
-                                            @change="$store.inputOptions.split_by_no_of_chars = $el.value"
-                                        />
-                                        character(s)
-                                    </label>
-                                </div>
-                            </section>
-                        </form>
-                    </section>
-                </div>-->
             </div>
         </main>
     </div>
