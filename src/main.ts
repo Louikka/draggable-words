@@ -154,17 +154,18 @@ document.querySelector('main aside .options > .aside-button')!.addEventListener(
 document.addEventListener('alpine:init', () =>
 {
     // locally saved preferences
-    let __ls = localStorage.getItem('app-data');
+    let ls = localStorage.getItem('app-data');
 
-    if (__ls === null)
+    // in case there is old version availible
+    let lsOld = localStorage.getItem('inputOptions');
+
+    if (ls === null)
     {
         let __lsNew: AppDefaultPreferences = structuredClone(APP_DEFAULT_PREFERENCES);
 
-        // in case there is old version availible
-        let __loOld = localStorage.getItem('inputOptions');
-        if (__loOld !== null)
+        if (lsOld !== null)
         {
-            let __lsOldParsed = JSON.parse(__loOld);
+            let __lsOldParsed = JSON.parse(lsOld);
             // import old data
             __lsNew.words.isSplit = __lsOldParsed.is_split;
             __lsNew.words.language = __lsOldParsed.language;
@@ -179,7 +180,7 @@ document.addEventListener('alpine:init', () =>
 
         try
         {
-            __lsParsed = JSON.parse(__ls);
+            __lsParsed = JSON.parse(ls);
             __lsParsed.words.__debug__ = 1;
         }
         catch (err)
