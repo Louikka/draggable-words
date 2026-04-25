@@ -28,9 +28,6 @@
 }
 
 html {
-    scrollbar-width : none;
-    scroll-behavior : smooth;
-
     @media (orientation : portrait) {
         font-size : 12px;
     }
@@ -100,23 +97,23 @@ body {
 
                         &.tools {
                             > .create > .aside-button {
-                                background-image : url('../assets/pencil.svg');
+                                background-image : url('../src/assets/pencil.svg');
                                 background-size : 60%;
                             }
 
                             > .clear > .aside-button {
-                                background-image : url('../assets/x-lg.svg');
+                                background-image : url('../src/assets/x-lg.svg');
                                 background-size : 60%;
                             }
 
                             > .options > .aside-button {
-                                background-image : url('../assets/gear.svg');
+                                background-image : url('../src/assets/gear.svg');
                                 background-size : 60%;
                             }
                         }
                         &.links {
                             > .github > .aside-button {
-                                background-image : url('../assets/github-mark/github-mark.svg');
+                                background-image : url('../src/assets/github-mark/github-mark.svg');
                                 background-size : 80%;
                             }
                         }
@@ -315,7 +312,7 @@ select {
 
 
 .option-not-working::after {
-    content : url('../assets/exclamation-circle.svg');
+    content : url('../src/assets/exclamation-circle.svg');
 
     vertical-align : middle;
 

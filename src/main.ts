@@ -1,10 +1,8 @@
-import './styles/styles.scss';
-
 import Alpine from 'alpinejs';
 import * as simiSyllable from 'simi-syllable';
 
 import { makeElementDraggable, setElementRandomPosition } from './lib/draggables';
-import { closeAllAsideMenus, getFormInput, sliceStringByLetters, toggleFullscreen } from './lib/utils';
+import { closeAllAsideMenus, getFormInput, sliceStringByLetters } from './lib/utils';
 
 
 
@@ -74,9 +72,9 @@ document.forms['create_menu' as any].addEventListener('submit', (ev) =>
 
     const formTextInput = form['create_menu_input_text'] as HTMLInputElement;
 
-    const optionIsSplit = <HTMLInputElement> document.getElementById('options-menu-option-is-split');
-    const optionLanguage = <HTMLInputElement> document.getElementById('options-menu-option-language');
-    const optionSplitBy = <HTMLInputElement> document.getElementById('options-menu-option-split-by');
+    const optionIsSplit = document.getElementById('options-menu-option-is-split') as HTMLInputElement;
+    const optionLanguage = document.getElementById('options-menu-option-language') as HTMLInputElement;
+    const optionSplitBy = document.getElementById('options-menu-option-split-by') as HTMLInputElement;
 
     const canvas = document.getElementById('canvas-container')!;
 
@@ -154,41 +152,41 @@ document.querySelector('main aside .options > .aside-button')!.addEventListener(
 document.addEventListener('alpine:init', () =>
 {
     // locally saved preferences
-    let ls = localStorage.getItem('app-data');
+    const ls = localStorage.getItem('app-data');
 
     // in case there is old version availible
-    let lsOld = localStorage.getItem('inputOptions');
+    const lsOld = localStorage.getItem('inputOptions');
 
     if (ls === null)
     {
-        let __lsNew: AppDefaultPreferences = structuredClone(APP_DEFAULT_PREFERENCES);
+        let lsNew: AppDefaultPreferences = structuredClone(APP_DEFAULT_PREFERENCES);
 
         if (lsOld !== null)
         {
             let __lsOldParsed = JSON.parse(lsOld);
             // import old data
-            __lsNew.words.isSplit = __lsOldParsed.is_split;
-            __lsNew.words.language = __lsOldParsed.language;
-            __lsNew.words.splitByNoOfChars = __lsOldParsed.split_by_no_of_chars;
+            lsNew.words.isSplit = __lsOldParsed.is_split;
+            lsNew.words.language = __lsOldParsed.language;
+            lsNew.words.splitByNoOfChars = __lsOldParsed.split_by_no_of_chars;
         }
 
-        Alpine.store('app_data', __lsNew);
+        Alpine.store('app_data', lsNew);
     }
     else
     {
-        let __lsParsed: AppDefaultPreferences;
+        let lsParsed: AppDefaultPreferences;
 
         try
         {
-            __lsParsed = JSON.parse(ls);
-            __lsParsed.words.__debug__ = 1;
+            lsParsed = JSON.parse(ls);
+            lsParsed.words.__debug__ = 1;
         }
         catch (err)
         {
-            __lsParsed = structuredClone(APP_DEFAULT_PREFERENCES);
+            lsParsed = structuredClone(APP_DEFAULT_PREFERENCES);
         }
 
-        Alpine.store('app_data', __lsParsed);
+        Alpine.store('app_data', lsParsed);
     }
 });
 
