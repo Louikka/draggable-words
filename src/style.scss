@@ -57,7 +57,7 @@ body {
 
 
             > aside {
-                --button-icon-size : 2.5rem;
+                --button-icon-size : 2.4rem;
 
                 position : relative;
                 z-index : 1;
@@ -137,11 +137,11 @@ body {
                     top : 1rem;
 
                     background-color : var(--aside-background-color);
-                    border-radius : 1rem;
+                    border-radius : .5rem;
 
 
                     > .wrapper {
-                        padding : .8rem;
+                        padding : .8rem 1rem;
 
 
                         > *:not(:first-child) {
@@ -256,10 +256,10 @@ body {
     .tile {
         position : absolute;
 
-        padding : .5rem;
+        padding : .5rem .67rem;
 
         background-color : var(--tile-background-color);
-        border-radius : 1rem;
+        border-radius : .5rem;
 
         font-size : var(--tile-font-size);
 
