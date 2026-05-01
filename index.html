@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 
 <head>
@@ -14,9 +14,10 @@
     <title>Draggable Words</title>
 
 
-    <link rel="stylesheet" href="./src/style.scss" />
-
+    <link rel="stylesheet" href="./src/app.css" />
     <script type="module" src="./src/main.ts" defer></script>
+
+    <link rel="stylesheet" href="./node_modules/modern-normalize/modern-normalize.css" />
 
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -29,113 +30,8 @@
 
 
 
-<body x-data>
-    <div id="app-main">
-        <main>
-            <div class="wrapper">
-                <aside>
-                    <div class="wrapper">
-                        <section class="tools">
-                            <div class="button-container create">
-                                <input
-                                    class="aside-button"
-                                    type="button"
-                                    title="Create"
-                                />
-                            </div>
-                            <div class="button-container clear">
-                                <input
-                                    class="aside-button"
-                                    type="button"
-                                    title="Clear canvas"
-                                    onclick="clearCanvas()"
-                                />
-                            </div>
-                            <div class="button-container options">
-                                <input
-                                    class="aside-button"
-                                    type="button"
-                                    title="Options"
-                                />
-                            </div>
-                        </section>
-                        <hr />
-                        <section class="links">
-                            <div class="button-container github">
-                                <a class="aside-button" href="https://github.com/Louikka" title="Github"></a>
-                            </div>
-                        </section>
-                    </div>
-
-                    <div class="aside-menu create-menu" hidden>
-                        <form class="wrapper" name="create_menu">
-                            <div class="title">
-                                <span>Enter words here. Use spaces to separate them.</span>
-                            </div>
-                            <div class="input-fields" style="margin-bottom:.3rem;display:flex;gap:.5rem">
-                                <input
-                                    name="create_menu_input_text"
-                                    type="text"
-                                    placeholder="Type here..."
-                                />
-                                <input
-                                    name="create_menu_input_button"
-                                    type="submit"
-                                    value="Submit"
-                                />
-                            </div>
-                        </form>
-                    </div>
-
-                    <div class="aside-menu options-menu" hidden>
-                        <div class="wrapper">
-                            <div>
-                                <label>
-                                    Auto split words
-                                    <input
-                                        id="options-menu-option-is-split"
-                                        type="checkbox"
-                                        x-init="$el.checked = $store.app_data.words.isSplit"
-                                        @change="$store.app_data.words.isSplit = $el.checked"
-                                    />
-                                </label>
-                            </div>
-                            <div>
-                                <label>
-                                    Use language
-                                    <select
-                                        id="options-menu-option-language"
-                                        x-init="$el.value = $store.app_data.words.language"
-                                        @change="$store.app_data.words.language = $el.value"
-                                    >
-                                        <option value="none">None</option>
-                                        <option value="en">English</option>
-                                        <option value="es">Spanish</option>
-                                    </select>
-                                </label>
-                            </div>
-                            <div>
-                                <label>
-                                    Split by
-                                    <input
-                                        id="options-menu-option-split-by"
-                                        type="number"
-                                        min="1"
-                                        style="width:3em"
-                                        x-init="$el.value = $store.app_data.words.splitByNoOfChars"
-                                        @change="$store.app_data.words.splitByNoOfChars = $el.value"
-                                    />
-                                    character(s)
-                                </label>
-                            </div>
-                        </div>
-                    </div>
-                </aside>
-
-                <div id="canvas-container" class="canvas"></div>
-            </div>
-        </main>
-    </div>
+<body>
+    <div id="app"></div>
 </body>
 
 </html>

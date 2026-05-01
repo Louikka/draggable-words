@@ -1,0 +1,71 @@
+:root {
+    --spacing : .25rem ;
+
+    --color-white : white ;
+    --color-gainsboro : gainsboro ;
+    --color-green : #6ce01f ;
+    --color-softblue : rgb(68, 76, 247) ;
+    --color-softblue-light : rgba(from var(--color-softblue) r g b / .8) ;
+}
+
+
+
+body {
+    /* */
+}
+
+#app {
+    overflow : hidden ;
+
+    height : 100vh ;
+
+    background-color : var(--color-gainsboro) ;
+
+    font-family : 'Noto Sans', sans-serif ;
+    font-variation-settings : "wdth" 100 ;
+}
+
+
+
+a {
+    text-decoration : none;
+    color : inherit;
+}
+a:visited {
+    color : inherit;
+}
+
+input,
+button,
+select {
+    background-color : transparent ;
+    border : none ;
+
+    font : inherit ;
+    color : inherit ;
+}
+
+:is(
+    input[type="button"],
+    input[type="submit"],
+    button,
+):not(:disabled) {
+    cursor : pointer ;
+}
+
+input[type="checkbox"] {
+    vertical-align : middle ;
+}
+
+input[type="number"] {
+    text-align : center ;
+}
+
+
+.option-not-working::after {
+    content : url('./assets/exclamation-circle.svg');
+
+    vertical-align : middle;
+
+    margin-left : .2rem;
+}
