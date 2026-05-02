@@ -109,7 +109,6 @@
 
         background-color : var(--color-white) ;
     }
-
     .aside-section {
         display : flex ;
         flex-direction : column ;
@@ -134,7 +133,6 @@
         border-radius : .5rem ;
     }
 
-
     #canvas-container {
         position : relative;
         flex-grow : 1 ;
@@ -145,5 +143,26 @@
             var(--color-gainsboro) 1px
         ) ;
         background-size : 20px 20px ;
+    }
+
+
+    @media (max-width : 500px) {
+        .__wrapper__ {
+            flex-direction : column-reverse ;
+        }
+
+        .aside-panel {
+            flex-direction : row ;
+            justify-content : flex-end ;
+        }
+        .aside-section {
+            flex-direction : row ;
+        }
+
+        hr {
+            width : 0 ;
+            height : 100% ;
+            margin : 0 1rem ;
+        }
     }
 </style>

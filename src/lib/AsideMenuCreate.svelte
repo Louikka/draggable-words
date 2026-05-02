@@ -21,7 +21,7 @@
 
         for (let word of formInputText.value.trim().split(' ').filter(s => s !== ''))
         {
-            if (APP_OPTIONS.split !== undefined)
+            if (APP_OPTIONS.split.isSplit)
             {
                 if (APP_OPTIONS.split.language === 'en')
                 {
