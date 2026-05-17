@@ -102,7 +102,7 @@
         position : relative ;
         z-index : 1 ;
 
-        padding : .8rem ;
+        padding : calc(var(--spacing) * 3) ;
 
         display : flex ;
         flex-direction : column ;
@@ -117,7 +117,7 @@
 
     hr {
         width : 100% ;
-        margin : 1rem 0 ;
+        margin : calc(var(--spacing) * 4) 0 ;
 
         border-color : var(--color-softblue-light) ;
     }
@@ -130,7 +130,7 @@
         padding : .8rem 1rem ;
 
         background-color : inherit ;
-        border-radius : .5rem ;
+        border-radius : calc(var(--spacing) * 2) ;
     }
 
     #canvas-container {
@@ -162,7 +162,7 @@
         hr {
             width : 0 ;
             height : 100% ;
-            margin : 0 1rem ;
+            margin : 0 calc(var(--spacing) * 4) ;
         }
     }
 </style>

@@ -55,12 +55,12 @@
     .tile {
         position : absolute ;
 
-        padding : .5rem .67rem ;
+        padding : calc(var(--spacing) * 2) calc(var(--spacing) * 3) ;
 
         background-color : var(--color-white) ;
-        border-radius : .5rem ;
+        border-radius : calc(var(--spacing) * 2) ;
 
-        font-size : calc(var(--spacing) * 2) ;
+        font-size : calc(var(--spacing) * 4) ;
     }
     .tile.found {
         background-color : var(--color-green) ;

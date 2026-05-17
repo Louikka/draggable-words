@@ -9,9 +9,14 @@
 }
 
 
-@media (max-width : 500px) {
+@media (width < 500px) {
     html {
         font-size : 14px ;
+    }
+}
+@media (width > 2000px) {
+    html {
+        font-size : 18px ;
     }
 }
 
@@ -65,13 +70,4 @@ input[type="checkbox"] {
 
 input[type="number"] {
     text-align : center ;
-}
-
-
-.option-not-working::after {
-    content : url('./assets/exclamation-circle.svg');
-
-    vertical-align : middle;
-
-    margin-left : .2rem;
 }

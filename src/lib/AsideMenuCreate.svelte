@@ -90,7 +90,7 @@
         display : block ;
 
         background-color : transparent ;
-        border-radius : .5rem ;
+        border-radius : calc(var(--spacing) * 2) ;
     }
     :is(input[type="button"], input[type="submit"], button):hover,
     :is(input[type="button"], input[type="submit"], button):active {

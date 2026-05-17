@@ -46,7 +46,7 @@
         background-position : center ;
         background-repeat : no-repeat ;
         /* background-size : 80% ; */
-        border-radius : .5rem ;
+        border-radius : calc(var(--spacing) * 2) ;
     }
     :is(input, button):hover,
     :is(input, button):active {

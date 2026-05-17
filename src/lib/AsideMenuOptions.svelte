@@ -64,10 +64,10 @@
         gap : .5rem ;
 
         border : 2px solid var(--color-softblue-light) ;
-        border-radius : .5rem ;
+        border-radius : calc(var(--spacing) * 2) ;
     }
     fieldset > legend {
-        padding : 0 .25em ;
+        padding : 0 calc(var(--spacing) * 1) ;
     }
 
     select {
