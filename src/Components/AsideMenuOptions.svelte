@@ -1,10 +1,10 @@
 <script lang="ts">
-    import { APP_OPTIONS } from '../shared.svelte';
+    import { APP_OPTIONS } from '../lib/shared.svelte';
 </script>
 
 
 
-<div class="__wrapper__">
+<div class="min-w-100 flex flex-col gap-4">
     <fieldset>
         <legend>Language options</legend>
 
@@ -23,13 +23,21 @@
 
         <label>
             Split words
-            <input type="checkbox" bind:checked={APP_OPTIONS.split.isSplit} />
+            <input
+                type="checkbox"
+                bind:checked={APP_OPTIONS.split.isSplit}
+            />
         </label>
 
         {#if APP_OPTIONS.split.isSplit && APP_OPTIONS.split.language === 'none'}
             <label>
                 Split by
-                <input type="number" min="1" style="width:3em" bind:value={APP_OPTIONS.split.byNoOfChars} />
+                <input
+                    class="ui-input-number"
+                    type="number"
+                    min="1"
+                    bind:value={APP_OPTIONS.split.byNoOfChars}
+                />
                 character(s)
             </label>
         {/if}
@@ -40,7 +48,13 @@
 
         <label>
             Tiles font size
-            <input type="number" min="2" max="32" style="width:3em" bind:value={APP_OPTIONS.tilesFontSize} />
+            <input
+                class="ui-input-number"
+                type="number"
+                min="2"
+                max="32"
+                bind:value={APP_OPTIONS.tilesFontSize}
+            />
         </label>
     </fieldset>
 </div>
@@ -48,22 +62,16 @@
 
 
 <style>
-    .__wrapper__ {
-        min-width : 400px ;
-
-        display : flex ;
-        flex-direction : column ;
-        gap : 1rem ;
-    }
-
     fieldset {
         margin : 0 ;
+        padding : .2rem .5rem .4rem .5rem ;
 
         display : flex ;
         flex-direction : column ;
+        align-items : flex-start ;
         gap : .5rem ;
 
-        border : 2px solid var(--color-softblue-light) ;
+        border : 2px solid var(--app-accent-color) ;
         border-radius : calc(var(--spacing) * 2) ;
     }
     fieldset > legend {
@@ -71,10 +79,10 @@
     }
 
     select {
-        border-bottom : 2px solid var(--color-softblue-light) ;
+        border-bottom : 2px solid var(--app-accent-color) ;
     }
 
     input[type="number"] {
-        border-bottom : 2px solid var(--color-softblue-light) ;
+        width : 3em ;
     }
 </style>

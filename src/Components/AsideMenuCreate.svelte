@@ -1,8 +1,8 @@
 <script lang="ts">
     import * as simiSyllable from 'simi-syllable';
 
-    import { sliceStringByLetters } from '../utils';
-    import { APP_OPTIONS } from '../shared.svelte';
+    import { sliceStringByLetters } from '../lib/utils';
+    import { APP_OPTIONS } from '../lib/shared.svelte';
 
 
     interface _Props {
@@ -48,18 +48,22 @@
 
 
 
-<form class="__wrapper__" onsubmit={onFormSubmit}>
+<form
+    class="flex flex-col gap-2"
+    onsubmit={onFormSubmit}
+>
     <div>
         <span>Enter words here. Use spaces to separate them.</span>
     </div>
-    <div class="input-fields">
+    <div class="my-1 flex items-center gap-2">
         <input
+            class="ui-input-text  px-1 py-0.5"
             name="form_input_text"
             type="text"
             placeholder="Type here..."
-            style="border-bottom:2px solid var(--color-softblue-light)"
         />
         <input
+            class="ui-button  px-2 py-1"
             type="submit"
             value="Submit"
         />
@@ -68,32 +72,4 @@
 
 
 
-<style>
-    .__wrapper__ {
-        display : flex ;
-        flex-direction : column ;
-        gap : .5rem ;
-    }
-
-    .input-fields {
-        margin : .3rem 0 ;
-
-        display : flex ;
-        gap : .5rem ;
-    }
-
-    input[type="button"],
-    input[type="submit"],
-    button {
-        padding : .3em .59em ;
-
-        display : block ;
-
-        background-color : transparent ;
-        border-radius : calc(var(--spacing) * 2) ;
-    }
-    :is(input[type="button"], input[type="submit"], button):hover,
-    :is(input[type="button"], input[type="submit"], button):active {
-        background-color : var(--color-gainsboro) ;
-    }
-</style>
+<style></style>

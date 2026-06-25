@@ -1,33 +1,26 @@
 <script lang="ts">
-    import IconButton from './lib/IconButton.svelte';
-    import AsideMenuCreate from './lib/AsideMenuCreate.svelte';
-    import AsideMenuOptions from './lib/AsideMenuOptions.svelte';
-    import CanvasTile from './lib/CanvasTile.svelte';
+    import AsideMenuCreate from './Components/AsideMenuCreate.svelte';
+    import AsideMenuOptions from './Components/AsideMenuOptions.svelte';
+    import CanvasTile from './Components/CanvasTile.svelte';
 
-    import icon_pencil from './assets/pencil.svg?url';
-    import icon_x from './assets/x-lg.svg?url';
-    import icon_gear from './assets/gear.svg?url';
-    import icon_gh from './assets/github-mark/github-mark.svg?url';
+    import icon_pencil from 'bootstrap-icons/icons/pencil.svg?raw';
+    import icon_x from 'bootstrap-icons/icons/x-lg.svg?raw';
+    import icon_gear from 'bootstrap-icons/icons/gear.svg?raw';
+    import icon_github from 'bootstrap-icons/icons/github.svg?raw';
 
 
     let canvasTilesCollection = $state<string[]>([]);
 
-    let _whichMenuIsOpen = $state<null | string>(null);
-    const toggleMenu = (id: null | string) =>
+    let whichMenuIsOpen = $state<string>('');
+    const toggleMenu = (id?: string | null) =>
     {
-        if (id === null)
+        if (id === undefined || id === null || id === whichMenuIsOpen)
         {
-            _whichMenuIsOpen = null;
-            return;
-        }
-
-        if (_whichMenuIsOpen === id)
-        {
-            _whichMenuIsOpen = null;
+            whichMenuIsOpen = '';
         }
         else
         {
-            _whichMenuIsOpen = id;
+            whichMenuIsOpen = id;
         }
     };
 
@@ -37,89 +30,73 @@
         const e = ev.target as HTMLElement;
         if (e === null)
         {
-            console.log(ev);
+            console.debug(ev);
             throw new Error(`Cannot handle click on element.`);
         }
 
         if (e.closest('#app aside') === null)
         {
-            _whichMenuIsOpen = null;
+            toggleMenu(null);
         }
     }
 </script>
 
 
 
-<div class="__wrapper__">
-    <aside class="aside-panel">
-        <div class="aside-section tools">
-            <IconButton title="Create" icon={{ src : icon_pencil, size : 0.6, }} onclick={() => toggleMenu('create') } />
-            <IconButton title="Clear canvas" icon={{ src : icon_x, size : 0.6, }} onclick={() => canvasTilesCollection = [] } />
-            <IconButton title="Options" icon={{ src : icon_gear, size : 0.6, }} onclick={() => toggleMenu('options') } />
+<svelte:document onclick={hanldeGlobalClickEvent} />
+
+<div class="__wrapper__  h-full flex">
+    <aside class="aside-panel  relative z-1 p-3 flex flex-col gap-4 bg-white">
+        <div class="aside-section">
+            <button class="ui-button" title="Create" onclick={() => toggleMenu('create') }>
+                {@html icon_pencil}
+            </button>
+
+            <button class="ui-button" title="Clear canvas" onclick={() => canvasTilesCollection = [] }>
+                {@html icon_x}
+            </button>
+
+            <button class="ui-button" title="Options" onclick={() => toggleMenu('options') }>
+                {@html icon_gear}
+            </button>
         </div>
 
-        <hr />
+        <div class="ui-hr  w-full h-[1.5px]"></div>
 
-        <div class="aside-section links">
+        <div class="aside-section">
             <a href="https://github.com/Louikka">
-                <IconButton title="Github" icon={{ src : icon_gh, }} />
+                <button class="ui-button insvgp1" title="Github">
+                    {@html icon_github}
+                </button>
             </a>
         </div>
 
 
-        {#if _whichMenuIsOpen === 'create'}
-            <div class="aside-menu">
+        {#if whichMenuIsOpen === 'create'}
+            <div class="aside-menu ui-w-shadow">
                 <AsideMenuCreate bind:canvasTilesCollection />
             </div>
-        {/if}
-
-        {#if _whichMenuIsOpen === 'options'}
-            <div class="aside-menu">
+        {:else if whichMenuIsOpen === 'options'}
+            <div class="aside-menu ui-w-shadow">
                 <AsideMenuOptions />
             </div>
         {/if}
     </aside>
 
-    <div id="canvas-container">
+    <div id="canvas-container" class="ui-background-pattern  relative grow">
         {#each canvasTilesCollection as value}
             <CanvasTile {value} />
         {/each}
     </div>
 </div>
 
-<svelte:document onclick={hanldeGlobalClickEvent} />
-
 
 
 <style>
-    .__wrapper__ {
-        height : 100% ;
-
-        display : flex ;
-    }
-
-    .aside-panel {
-        position : relative ;
-        z-index : 1 ;
-
-        padding : calc(var(--spacing) * 3) ;
-
-        display : flex ;
-        flex-direction : column ;
-
-        background-color : var(--color-white) ;
-    }
     .aside-section {
         display : flex ;
         flex-direction : column ;
         gap : .2rem ;
-    }
-
-    hr {
-        width : 100% ;
-        margin : calc(var(--spacing) * 4) 0 ;
-
-        border-color : var(--color-softblue-light) ;
     }
 
     .aside-menu {
@@ -131,38 +108,5 @@
 
         background-color : inherit ;
         border-radius : calc(var(--spacing) * 2) ;
-    }
-
-    #canvas-container {
-        position : relative;
-        flex-grow : 1 ;
-
-        background-color : var(--color-gainsboro) ;
-        background-image : radial-gradient(
-            var(--color-softblue-light) 1px,
-            var(--color-gainsboro) 1px
-        ) ;
-        background-size : 20px 20px ;
-    }
-
-
-    @media (max-width : 500px) {
-        .__wrapper__ {
-            flex-direction : column-reverse ;
-        }
-
-        .aside-panel {
-            flex-direction : row ;
-            justify-content : flex-end ;
-        }
-        .aside-section {
-            flex-direction : row ;
-        }
-
-        hr {
-            width : 0 ;
-            height : 100% ;
-            margin : 0 calc(var(--spacing) * 4) ;
-        }
     }
 </style>

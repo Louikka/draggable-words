@@ -1,11 +1,12 @@
-:root {
-    --spacing : .25rem ;
+@import "tailwindcss";
 
-    --color-white : white ;
-    --color-gainsboro : gainsboro ;
-    --color-green : #6ce01f ;
-    --color-softblue : rgb(68, 76, 247) ;
-    --color-softblue-light : rgba(from var(--color-softblue) r g b / .8) ;
+@font-face {
+    font-family : 'Noto Sans' ;
+    src : url('./assets/fonts/Noto_Sans/static/NotoSans-Regular.ttf') ;
+}
+
+:root {
+    --app-accent-color : var(--color-blue-700) ;
 }
 
 
@@ -21,19 +22,78 @@
 }
 
 
-body {
-    /* */
+html {
+    height : 100% ;
 }
+
+body {
+    height : 100% ;
+}
+
 
 #app {
     overflow : hidden ;
 
-    height : 100vh ;
+    height : 100% ;
+    width : 100dvw ;
+    height : 100dvh ;
 
-    background-color : var(--color-gainsboro) ;
+    background-color : gainsboro ;
 
-    font-family : 'Noto Sans', sans-serif ;
+    font-family : 'Noto Sans', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif ;
+    font-optical-sizing : auto ;
     font-variation-settings : "wdth" 100 ;
+}
+
+
+.ui-background-pattern {
+    background-color : gainsboro ;
+    background-image : radial-gradient(
+        var(--app-accent-color) 1px,
+        gainsboro 1px
+    ) ;
+    background-size : 20px 20px ;
+}
+
+.ui-w-shadow {
+    box-shadow : 1px 4px 5px 0 rgba(34, 60, 80, .1) ;
+}
+
+.ui-hr {
+    background-color : var(--app-accent-color) ;
+    border-radius : 999em ;
+}
+
+.ui-button {
+    display : block ;
+
+    background-color : transparent ;
+    border-radius : --spacing(2) ;
+}
+.ui-button:hover,
+.ui-button:active {
+    background-color : rgba(0, 0, 0, .1) ;
+}
+.ui-button > svg {
+    width : 2.4rem ;
+    height : 2.4rem ;
+    padding : --spacing(2) ;
+
+    display : block ;
+}
+.ui-button.insvgp0 > svg {
+    padding : 0 ;
+}
+.ui-button.insvgp1 > svg {
+    padding : --spacing(1) ;
+}
+
+.ui-input-text {
+    border-bottom : 2px solid var(--app-accent-color) ;
+}
+
+.ui-input-number {
+    border-bottom : 2px solid var(--app-accent-color) ;
 }
 
 
@@ -44,16 +104,6 @@ a {
 }
 a:visited {
     color : inherit;
-}
-
-input,
-button,
-select {
-    background-color : transparent ;
-    border : none ;
-
-    font : inherit ;
-    color : inherit ;
 }
 
 :is(

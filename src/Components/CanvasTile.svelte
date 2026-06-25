@@ -1,7 +1,8 @@
 <script lang="ts">
     import { onMount } from 'svelte';
-    import { generateRandomPosition, makeElementDraggable } from '../utils';
-    import { APP_OPTIONS } from '../shared.svelte';
+
+    import { APP_OPTIONS } from '../lib/shared.svelte';
+    import { generateRandomPosition, makeElementDraggable } from '../lib/utils';
 
 
     interface _Props {
@@ -17,11 +18,6 @@
     let isDraggable = $state(false);
     let isFound = $state(false);
 
-    // initPosition ??= {
-    //     x : 0,
-    //     y : 0,
-    // };
-
 
     onMount(() =>
     {
@@ -36,11 +32,12 @@
 
 <!-- svelte-ignore a11y_no_static_element_interactions -->
 <div
-    class="tile { isDraggable ? 'draggable' : '' } { isFound ? 'found' : '' }"
+    class="ui-w-shadow { isDraggable ? 'draggable' : '' }  absolute px-3 py-2 bg-white rounded-lg select-none"
 
     style:top="{initPosition?.y}px"
     style:left="{initPosition?.x}px"
-    style:font-size="calc(var(--spacing) * {APP_OPTIONS.tilesFontSize})"
+    style:background-color={ isFound ? '#6ce01f' : 'white' }
+    style:font-size="calc(.25rem*{APP_OPTIONS.tilesFontSize})"
 
     bind:this={e}
 
@@ -52,20 +49,6 @@
 
 
 <style>
-    .tile {
-        position : absolute ;
-
-        padding : calc(var(--spacing) * 2) calc(var(--spacing) * 3) ;
-
-        background-color : var(--color-white) ;
-        border-radius : calc(var(--spacing) * 2) ;
-
-        font-size : calc(var(--spacing) * 4) ;
-    }
-    .tile.found {
-        background-color : var(--color-green) ;
-    }
-
     .draggable {
         cursor : pointer ;
     }

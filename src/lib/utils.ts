@@ -1,30 +1,11 @@
-export function getRandomInRange(min: number, max: number)
+export function getRandomInRange(min: number, max: number): number
 {
     return Math.random() * (max - min) + min;
 }
 
-/**
- * @param element pass `null` in order to request fullscreen for the entire page (`document.documentElement`).
- * @param toggle `true` to enter, `false` to exit, nothing for toggle.
- */
-export function toggleFullscreen(element?: Element | null, toggle?: boolean)
-{
-    if (toggle ?? document.fullscreenElement === null)
-    {
-        (element ?? document.documentElement).requestFullscreen().catch((err) =>
-        {
-            console.error(`An error occurred while trying to switch into fullscreen mode : ${err.message} (${err.name}).`);
-        });
-    }
-    else
-    {
-        document.exitFullscreen();
-    }
-}
-
 export function sliceStringByLetters(s: string, byNoOfLetters = 1): string[]
 {
-    if (byNoOfLetters === 0) return [ s, ];
+    if (byNoOfLetters === 0) return [ s ];
 
     if (byNoOfLetters < 1)
     {
@@ -53,24 +34,13 @@ export function sliceStringByLetters(s: string, byNoOfLetters = 1): string[]
     return res;
 }
 
-export function getFormInput(e: HTMLInputElement): string[]
+export function getFormInput(e: HTMLInputElement, splitChar = ' '): string[]
 {
-    let v = e.value.trim().split(' ');
-
+    let v = e.value.trim().split(splitChar);
     return v.filter(s => s !== '');
 }
 
 
-
-export function isPositionOutOfBoundaries(childRect: DOMRect, parentRect: DOMRect): boolean
-{
-    return (
-        childRect.top < parentRect.top ||
-        childRect.right > parentRect.right ||
-        childRect.bottom > parentRect.bottom ||
-        childRect.left < parentRect.left
-    );
-}
 
 export function generateRandomPosition(element: HTMLElement, boundaryElement?: HTMLElement): Position
 {
@@ -83,18 +53,16 @@ export function generateRandomPosition(element: HTMLElement, boundaryElement?: H
     const _parentDOMRect = (boundaryElement ?? element.offsetParent!).getBoundingClientRect();
 
     const safeRect = {
-        top : _parentDOMRect.top,
-        right : _parentDOMRect.right - _elementDOMRect.width,
-        bottom : _parentDOMRect.bottom - _elementDOMRect.height,
-        left : _parentDOMRect.left,
+        top:    _parentDOMRect.top,
+        right:  _parentDOMRect.right - _elementDOMRect.width,
+        bottom: _parentDOMRect.bottom - _elementDOMRect.height,
+        left:   _parentDOMRect.left,
     };
 
-    let pos = {
-        x : Math.floor(getRandomInRange(safeRect.left, safeRect.right)),
-        y : Math.floor(getRandomInRange(safeRect.top, safeRect.bottom)),
+    return {
+        x: Math.floor(getRandomInRange(safeRect.left, safeRect.right)),
+        y: Math.floor(getRandomInRange(safeRect.top, safeRect.bottom)),
     };
-
-    return pos;
 }
 
 /**
@@ -109,7 +77,7 @@ export function makeElementDraggable(element: HTMLElement, boundaryElement?: HTM
 
     const _parentDOMRect = (boundaryElement ?? element.offsetParent!).getBoundingClientRect();
 
-    let mousePosition = { x : 0, y : 0, };
+    let mousePosition = { x: 0, y: 0 };
 
 
     element.addEventListener('mousedown', (ev: MouseEvent) =>
