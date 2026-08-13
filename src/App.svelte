@@ -25,13 +25,13 @@
     };
 
 
-    function hanldeGlobalClickEvent(ev: Event)
+    function hanldeDocumentMouseDown(ev: MouseEvent)
     {
         const e = ev.target as HTMLElement;
         if (e === null)
         {
-            console.debug(ev);
-            throw new Error(`Cannot handle click on element.`);
+            console.debug('Cannot handle "onmousedown" event : ', ev);
+            return;
         }
 
         if (e.closest('#app aside') === null)
@@ -43,7 +43,9 @@
 
 
 
-<svelte:document onclick={hanldeGlobalClickEvent} />
+<svelte:document
+    onmousedown={hanldeDocumentMouseDown}
+/>
 
 <div class="__wrapper__  h-full flex">
     <aside class="aside-panel  relative z-1 p-3 flex flex-col gap-4 bg-white">

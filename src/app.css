@@ -5,6 +5,7 @@
     src : url('./assets/fonts/Noto_Sans/static/NotoSans-Regular.ttf') ;
 }
 
+
 :root {
     --app-accent-color : var(--color-blue-700) ;
 }
@@ -56,12 +57,12 @@ body {
 }
 
 .ui-w-shadow {
-    box-shadow : 1px 4px 5px 0 rgba(34, 60, 80, .1) ;
+    box-shadow : 1px 4px 5px 0 rgb(34 60 80 / .1) ;
 }
 
 .ui-hr {
     background-color : var(--app-accent-color) ;
-    border-radius : 999em ;
+    border-radius : calc(infinity * 1px) ;
 }
 
 .ui-button {
@@ -72,7 +73,7 @@ body {
 }
 .ui-button:hover,
 .ui-button:active {
-    background-color : rgba(0, 0, 0, .1) ;
+    background-color : rgb(0 0 0 / .1) ;
 }
 .ui-button > svg {
     width : 2.4rem ;

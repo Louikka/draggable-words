@@ -32,11 +32,13 @@
 
 <!-- svelte-ignore a11y_no_static_element_interactions -->
 <div
-    class="ui-w-shadow { isDraggable ? 'draggable' : '' }  absolute px-3 py-2 bg-white rounded-lg select-none"
+    class="ui-w-shadow { isDraggable ? 'draggable' : '' }
+           absolute px-3 py-2 bg-white border-3 border-(--app-accent-color) rounded-lg select-none"
 
     style:top="{initPosition?.y}px"
     style:left="{initPosition?.x}px"
-    style:background-color={ isFound ? '#6ce01f' : 'white' }
+    style:background-color={ isFound ? '#6ce01f' : null }
+    style:border-color={ isFound ? '#57b419' : null }
     style:font-size="calc(.25rem*{APP_OPTIONS.tilesFontSize})"
 
     bind:this={e}
