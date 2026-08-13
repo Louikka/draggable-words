@@ -1,5 +1,7 @@
 <script lang="ts">
     import { APP_OPTIONS } from '../lib/shared.svelte';
+
+    import icon_exclamation_circle from 'bootstrap-icons/icons/exclamation-circle.svg?raw';
 </script>
 
 
@@ -9,7 +11,7 @@
         <legend>Language options</legend>
 
         <label>
-            Use language for splitting
+            Language
             <select bind:value={APP_OPTIONS.split.language}>
                 <option value="none">None</option>
                 <option value="en">English</option>
@@ -21,15 +23,29 @@
     <fieldset>
         <legend>Split options</legend>
 
-        <label>
-            Split words
+        {const isSplitWarning = $derived(APP_OPTIONS.split.isSplit && APP_OPTIONS.split.language !== 'none')}
+
+        <label
+            role={isSplitWarning ? 'status' : null}
+        >
+            Split
             <input
                 type="checkbox"
                 bind:checked={APP_OPTIONS.split.isSplit}
             />
+            {#if isSplitWarning}
+                <span class="text-amber-700">
+                    <strong class="inline-block align-middle ml-1 pb-0.5" aria-hidden="true">
+                        {@html icon_exclamation_circle}
+                    </strong>
+                    <i class="text-[.67em]">
+                        Splitting will not work unless language is set to "none".
+                    </i>
+                </span>
+            {/if}
         </label>
 
-        {#if APP_OPTIONS.split.isSplit && APP_OPTIONS.split.language === 'none'}
+        {#if APP_OPTIONS.split.isSplit}
             <label>
                 Split by
                 <input
