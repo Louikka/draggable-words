@@ -53,6 +53,11 @@
             <button class="ui-button" title="Create" onclick={() => toggleMenu('create') }>
                 {@html icon_pencil}
             </button>
+            {#if whichMenuIsOpen === 'create'}
+                <div class="aside-menu ui-w-shadow">
+                    <AsideMenuCreate bind:canvasTilesCollection />
+                </div>
+            {/if}
 
             <button class="ui-button" title="Clear canvas" onclick={() => canvasTilesCollection = [] }>
                 {@html icon_x}
@@ -61,6 +66,11 @@
             <button class="ui-button" title="Options" onclick={() => toggleMenu('options') }>
                 {@html icon_gear}
             </button>
+            {#if whichMenuIsOpen === 'options'}
+                <div class="aside-menu ui-w-shadow">
+                    <AsideMenuOptions />
+                </div>
+            {/if}
         </div>
 
         <div class="ui-hr  w-full h-[1.5px]"></div>
@@ -72,17 +82,6 @@
                 </button>
             </a>
         </div>
-
-
-        {#if whichMenuIsOpen === 'create'}
-            <div class="aside-menu ui-w-shadow">
-                <AsideMenuCreate bind:canvasTilesCollection />
-            </div>
-        {:else if whichMenuIsOpen === 'options'}
-            <div class="aside-menu ui-w-shadow">
-                <AsideMenuOptions />
-            </div>
-        {/if}
     </aside>
 
     <div id="canvas-container" class="ui-background-pattern  relative grow">
@@ -108,7 +107,7 @@
 
         padding : .8rem 1rem ;
 
-        background-color : inherit ;
+        background-color : var(--color-white) ;
         border-radius : calc(var(--spacing) * 2) ;
     }
 </style>
